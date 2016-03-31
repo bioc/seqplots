@@ -16,6 +16,12 @@
 #' @param labels The character vector giving labels used in experiment key. The
 #'   defaults NULL value indicates taht feature/track file names will be used to
 #'   generate the labels.
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
+=======
+#' @param ord The numeric vector determining the plotting order of experiments. 
+#'   Feature-track pair with the highest priority will be listed on the top of
+#'   key. If NULL (default) the order established in \code{plotset} is used.
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #' @param keepratio If TRUE keep 1:1 aspect ratio of the figure; defaults to
 #'   FALSE
 #' @param plotScale scale the available data before plotting, can be "linear"
@@ -116,7 +122,11 @@
 setGeneric(
     "plotAverage",
     function(
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         plotset, keepratio=FALSE, labels=NULL, xlim=NULL, ylim=NULL, 
+=======
+        plotset, keepratio=FALSE, ord=NULL, labels=NULL, xlim=NULL, ylim=NULL, 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         main=NULL, xlab='', ylab='', plotScale='linear', type='full', 
         error.estimates=TRUE, legend=TRUE, legend_ext=FALSE, 
         legend_pos='topright', legend_ext_pos="topleft", cex.axis=14, 
@@ -135,10 +145,16 @@ setMethod(
         if(keepratio) par(pty='s')
         if( length(labels) ) {
             labels <- labels[1:length(plotset)]
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotset <- Map(function(x, y) {
                 if(!is.na(y)) x[['desc']]<-y; return(x)
             }, plotset, labels)
         }
+=======
+            plotset <- Map(function(x, y) {if(!is.na(y)) x[['desc']]<-y; return(x)}, plotset, labels)
+        }
+        if( length(ord) ) { plotset <- plotset[ ord ] }
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         plotMext(
             plotset,  xlim=xlim, ylim=ylim, main=main, xlab=xlab, ylab=ylab, 
             plotScale=plotScale, type=type, error.estimates=error.estimates, 
@@ -158,7 +174,11 @@ setMethod(
     "plotAverage", signature(plotset='PlotSetPair'),
     function(plotset, ...) {
         plotAverage(
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             list(plotset), keepratio, labels, xlim, ylim, main, 
+=======
+            list(plotset), keepratio, ord, labels, xlim, ylim, main, 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             xlab, ylab, plotScale, type, error.estimates, legend, legend_ext, 
             legend_pos, legend_ext_pos, cex.axis, cex.lab, cex.main, 
             cex.legend, ln.v, ln.h, colvec, pointsize, ...
@@ -172,7 +192,11 @@ setMethod(
     "plotAverage", signature(plotset='PlotSetList'),
     function(plotset, ...) {
         plotAverage(
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotset$data, keepratio, labels, xlim, ylim, main, xlab, ylab, 
+=======
+            plotset$data, keepratio, ord, labels, xlim, ylim, main, xlab, ylab, 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             plotScale, type, error.estimates, legend, legend_ext, legend_pos, 
             legend_ext_pos, cex.axis, cex.lab, cex.main, cex.legend, ln.v, 
             ln.h, colvec, pointsize, ...
@@ -186,7 +210,11 @@ setMethod(
     "plotAverage", signature(plotset='PlotSetArray'),
     function(plotset, ...) {
         plotAverage(
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             unlist(plotset)$data, keepratio, labels, xlim, ylim, main, 
+=======
+            unlist(plotset)$data, keepratio, ord, labels, xlim, ylim, main, 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             xlab, ylab, plotScale, type, error.estimates, legend, legend_ext, 
             legend_pos, legend_ext_pos, cex.axis, cex.lab, cex.main, 
             cex.legend, ln.v, ln.h, colvec, pointsize, ...

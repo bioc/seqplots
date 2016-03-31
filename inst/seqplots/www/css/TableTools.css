@@ -27,11 +27,16 @@
  * TableTools container element and styles applying to all components
  */
 div.DTTT_container {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     position: relative;
+=======
+	position: relative;
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	float: right;
 	margin-bottom: 1em;
 }
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 @media screen and (max-width: 640px) {
 	div.DTTT_container {
 		float: none !important;
@@ -48,11 +53,17 @@ div.DTTT_container {
 }
 
 
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 button.DTTT_button,
 div.DTTT_button,
 a.DTTT_button {
 	position: relative;
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	display: inline-block;
+=======
+	float: left;
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	margin-right: 3px;
 	padding: 5px 8px;
 	border: 1px solid #999;
@@ -115,6 +126,7 @@ a.DTTT_button:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
 }
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 button.DTTT_button:focus,
 div.DTTT_button:focus,
 a.DTTT_button:focus {
@@ -139,6 +151,8 @@ a.DTTT_button:active {
 	box-shadow: inset 1px 1px 3px #999999;
 }
 
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 button.DTTT_disabled,
 div.DTTT_disabled,
 a.DTTT_disabled {
@@ -219,6 +233,7 @@ table.DTTT_selectable tbody tr {
 }
 
 table.dataTable tr.DTTT_selected.odd {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	background-color: #9FAFD1;
 }
 
@@ -232,10 +247,30 @@ table.dataTable tr.DTTT_selected.odd td.sorting_2 {
 
 table.dataTable tr.DTTT_selected.odd td.sorting_3 {
 	background-color: #9FAFD1;
+=======
+	background-color: #9FAFD1 !important;
+}
+
+table.dataTable tr.DTTT_selected.odd td {
+  background-color: #9FAFD1 !important;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_1 {
+	background-color: #9FAFD1 !important;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_2 {
+	background-color: #9FAFD1 !important;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_3 {
+	background-color: #9FAFD1 !important;
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }
 
 
 table.dataTable tr.DTTT_selected.even {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	background-color: #B0BED9;
 }
 
@@ -249,6 +284,26 @@ table.dataTable tr.DTTT_selected.even td.sorting_2 {
 
 table.dataTable tr.DTTT_selected.even td.sorting_3 {
 	background-color: #B0BED9;
+=======
+	background-color: #B0BED9 !important;
+}
+
+table.dataTable tr.DTTT_selected.even td {
+  background-color: #B0BED9 !important;
+}
+
+
+table.dataTable tr.DTTT_selected.even td.sorting_1 {
+	background-color: #B0BED9 !important;
+}
+
+table.dataTable tr.DTTT_selected.even td.sorting_2 {
+	background-color: #B0BED9 !important;
+}
+
+table.dataTable tr.DTTT_selected.even td.sorting_3 {
+	background-color: #B0BED9 !important;
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }
 
 
@@ -358,3 +413,7 @@ div.DTTT_collection a.DTTT_button {
 	font-size: 14px;
 	line-height: 20px;
 }
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
+=======
+
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.

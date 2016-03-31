@@ -1,3 +1,4 @@
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 /*! jQuery UI - v1.11.1+CommonJS - 2014-09-17
 * http://jqueryui.com
 * Includes: widget.js
@@ -24,12 +25,20 @@
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
+=======
+/*
+ * jQuery UI Widget 1.10.0+amd
+ * https://github.com/blueimp/jQuery-File-Upload
+ *
+ * Copyright 2013 jQuery Foundation and other contributors
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
  * Released under the MIT license.
  * http://jquery.org/license
  *
  * http://api.jqueryui.com/jQuery.widget/
  */
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 var widget_uuid = 0,
 	widget_slice = Array.prototype.slice;
@@ -52,6 +61,30 @@ $.cleanData = (function( orig ) {
 		orig( elems );
 	};
 })( $.cleanData );
+=======
+(function (factory) {
+    if (typeof define === "function" && define.amd) {
+        // Register as an anonymous AMD module:
+        define(["jquery"], factory);
+    } else {
+        // Browser globals:
+        factory(jQuery);
+    }
+}(function( $, undefined ) {
+
+var uuid = 0,
+	slice = Array.prototype.slice,
+	_cleanData = $.cleanData;
+$.cleanData = function( elems ) {
+	for ( var i = 0, elem; (elem = elems[i]) != null; i++ ) {
+		try {
+			$( elem ).triggerHandler( "remove" );
+		// http://bugs.jquery.com/ticket/8235
+		} catch( e ) {}
+	}
+	_cleanData( elems );
+};
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 $.widget = function( name, base, prototype ) {
 	var fullName, existingConstructor, constructor, basePrototype,
@@ -136,7 +169,11 @@ $.widget = function( name, base, prototype ) {
 		// TODO: remove support for widgetEventPrefix
 		// always use the name + a colon as the prefix, e.g., draggable:start
 		// don't prefix for widgets that aren't DOM-based
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		widgetEventPrefix: existingConstructor ? (basePrototype.widgetEventPrefix || name) : name
+=======
+		widgetEventPrefix: existingConstructor ? basePrototype.widgetEventPrefix : name
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	}, proxiedPrototype, {
 		constructor: constructor,
 		namespace: namespace,
@@ -164,12 +201,19 @@ $.widget = function( name, base, prototype ) {
 	}
 
 	$.widget.bridge( name, constructor );
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 	return constructor;
 };
 
 $.widget.extend = function( target ) {
 	var input = widget_slice.call( arguments, 1 ),
+=======
+};
+
+$.widget.extend = function( target ) {
+	var input = slice.call( arguments, 1 ),
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		inputIndex = 0,
 		inputLength = input.length,
 		key,
@@ -198,7 +242,11 @@ $.widget.bridge = function( name, object ) {
 	var fullName = object.prototype.widgetFullName || name;
 	$.fn[ name ] = function( options ) {
 		var isMethodCall = typeof options === "string",
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			args = widget_slice.call( arguments, 1 ),
+=======
+			args = slice.call( arguments, 1 ),
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 			returnValue = this;
 
 		// allow multiple hashes to be passed on init
@@ -210,10 +258,13 @@ $.widget.bridge = function( name, object ) {
 			this.each(function() {
 				var methodValue,
 					instance = $.data( this, fullName );
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 				if ( options === "instance" ) {
 					returnValue = instance;
 					return false;
 				}
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 				if ( !instance ) {
 					return $.error( "cannot call methods on " + name + " prior to initialization; " +
 						"attempted to call method '" + options + "'" );
@@ -233,10 +284,14 @@ $.widget.bridge = function( name, object ) {
 			this.each(function() {
 				var instance = $.data( this, fullName );
 				if ( instance ) {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 					instance.option( options || {} );
 					if ( instance._init ) {
 						instance._init();
 					}
+=======
+					instance.option( options || {} )._init();
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 				} else {
 					$.data( this, fullName, new object( options, this ) );
 				}
@@ -263,7 +318,11 @@ $.Widget.prototype = {
 	_createWidget: function( options, element ) {
 		element = $( element || this.defaultElement || this )[ 0 ];
 		this.element = $( element );
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		this.uuid = widget_uuid++;
+=======
+		this.uuid = uuid++;
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		this.eventNamespace = "." + this.widgetName + this.uuid;
 		this.options = $.widget.extend( {},
 			this.options,
@@ -306,6 +365,12 @@ $.Widget.prototype = {
 		// all event bindings should go through this._on()
 		this.element
 			.unbind( this.eventNamespace )
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
+=======
+			// 1.9 BC for #7810
+			// TODO remove dual storage
+			.removeData( this.widgetName )
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 			.removeData( this.widgetFullName )
 			// support: jquery <1.6.3
 			// http://bugs.jquery.com/ticket/9413
@@ -351,12 +416,20 @@ $.Widget.prototype = {
 					curOption = curOption[ parts[ i ] ];
 				}
 				key = parts.pop();
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 				if ( arguments.length === 1 ) {
+=======
+				if ( value === undefined ) {
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 					return curOption[ key ] === undefined ? null : curOption[ key ];
 				}
 				curOption[ key ] = value;
 			} else {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 				if ( arguments.length === 1 ) {
+=======
+				if ( value === undefined ) {
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 					return this.options[ key ] === undefined ? null : this.options[ key ];
 				}
 				options[ key ] = value;
@@ -381,6 +454,7 @@ $.Widget.prototype = {
 
 		if ( key === "disabled" ) {
 			this.widget()
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 				.toggleClass( this.widgetFullName + "-disabled", !!value );
 
 			// If the widget is becoming disabled, then nothing is interactive
@@ -388,16 +462,29 @@ $.Widget.prototype = {
 				this.hoverable.removeClass( "ui-state-hover" );
 				this.focusable.removeClass( "ui-state-focus" );
 			}
+=======
+				.toggleClass( this.widgetFullName + "-disabled ui-state-disabled", !!value )
+				.attr( "aria-disabled", value );
+			this.hoverable.removeClass( "ui-state-hover" );
+			this.focusable.removeClass( "ui-state-focus" );
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		}
 
 		return this;
 	},
 
 	enable: function() {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		return this._setOptions({ disabled: false });
 	},
 	disable: function() {
 		return this._setOptions({ disabled: true });
+=======
+		return this._setOption( "disabled", false );
+	},
+	disable: function() {
+		return this._setOption( "disabled", true );
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	},
 
 	_on: function( suppressDisabledCheck, element, handlers ) {
@@ -417,6 +504,10 @@ $.Widget.prototype = {
 			element = this.element;
 			delegateElement = this.widget();
 		} else {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
+=======
+			// accept selectors, DOM elements
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 			element = delegateElement = $( element );
 			this.bindings = this.bindings.add( element );
 		}
@@ -441,7 +532,11 @@ $.Widget.prototype = {
 					handler.guid || handlerProxy.guid || $.guid++;
 			}
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			var match = event.match( /^([\w:-]*)\s*(.*)$/ ),
+=======
+			var match = event.match( /^(\w+)\s*(.*)$/ ),
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 				eventName = match[1] + instance.eventNamespace,
 				selector = match[2];
 			if ( selector ) {
@@ -556,8 +651,11 @@ $.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
 	};
 });
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 var widget = $.widget;
 
 
 
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }));

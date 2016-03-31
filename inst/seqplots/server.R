@@ -30,8 +30,11 @@ if( Sys.getenv('root') != '' ) {
   con <- dbConnect(sqlite, dbname = 'files.sqlite')
 }
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 shinyServer(function(input, output, clientData, session) {
 	
   #Test if png is working, require x11 addon on newer Mac OS X if necessary
@@ -40,10 +43,14 @@ shinyServer(function(input, output, clientData, session) {
   #Reactive values definition
   subplotSetup <- reactiveValues( )
   urlSetup <- reactiveValues( )
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
   if( length(GENOMES) ) 
       names(GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
   values <- reactiveValues( grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(), genomes=GENOMES )
+=======
+  values <- reactiveValues( grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list() )
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   
   #Source functions
   if( Sys.getenv('web') != '' ) setwd(Sys.getenv('web'))
@@ -62,10 +69,13 @@ shinyServer(function(input, output, clientData, session) {
 	    isolate( eval(parse(text=input$debug_cmd)) )
 	  })
   }
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     observe({
         updateSelectInput(session, "file_genome", choices = values$genomes)
     })
   
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	
   #Add [S]equence [F]eature setup and reset observers
   observe({
@@ -92,6 +102,7 @@ shinyServer(function(input, output, clientData, session) {
   	str(values$SFsetup) 
   })
   
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   #Subclust logic
   observe({
       input$clusters; input$replot
@@ -105,6 +116,8 @@ shinyServer(function(input, output, clientData, session) {
       
   })
   
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   #Multicore calculations definictions 
   observe( mcCalcStart, quoted = TRUE, label = 'BigCalc')
   observe( mcDoParallel, quoted = TRUE, label = 'Plotting')
@@ -121,14 +134,20 @@ shinyServer(function(input, output, clientData, session) {
 	#Rendering plot table	
 	observe({
 		if( is.null(input$publicRdata) ) { return() }		
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		if( input$publicRdata == '' & is.null(values$calcID) )   { values$grfile <- NULL; return() }
 		if( input$publicRdata == '' | !nchar(input$publicRdata) )  { return() }
+=======
+		if( input$publicRdata == ' ' & is.null(values$calcID) )   { values$grfile <- NULL; return() }
+		if( input$publicRdata == ' ' | !nchar(input$publicRdata) )  { return() }
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		message('Loading Rdata file: "', input$publicRdata, '"')
 		values$grfile <- get(load( file.path('publicFiles', input$publicRdata )))
 		values$calcID <- NULL
 	})
 	output$htmltab <- reactive({
 		if( is.null( values$grfile ) )	return('')	
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		return( renderHTMLgrid(values$grfile, TRUE, urlSetup$select, addcls=digest::digest(input$publicRdata), isolate(input$subplot_options)) )					
 	})
 	
@@ -166,6 +185,41 @@ shinyServer(function(input, output, clientData, session) {
 	        
 	        #sliderInput('xlim', 'X-axis limits:', min=rn[1], max=rn[2], value=c(rn[1], rn[2]), step=1)
 	    }
+=======
+		return( renderHTMLgrid(values$grfile, TRUE, urlSetup$select, addcls=digest::digest(input$publicRdata)) )					
+	})
+	
+	#Determined if plot and dataset save menu shoud be visible
+	output$showplot <- reactive({ !is.null(input$plot_this) })
+	outputOptions(output, "showplot", suspendWhenHidden = FALSE)
+	
+	#Rendering the image
+	output$image <- renderImage({
+	  if(is.null(values$im)) return(list(src = '',contentType = 'image/png',alt = "No image to plot just yet"))
+	  list(src = values$im,
+	       contentType = 'image/png',
+	       width = 1169,
+	       height = 782,
+	       alt = "This is alternate text")
+	}, deleteFile = TRUE)
+  
+	#renderin data dependant plot controles
+  #outputOptions(output, "plotUI", suspendWhenHidden = FALSE)
+	observe({
+				 if(!is.null(values$grfile)) {
+				   
+				   rn  <- range( values$grfile[[1]][[1]]$all_ind )
+				   rnY <- extendrange( sapply( unlist(values$grfile, recursive=FALSE, use.names=FALSE), '[[', 'means'), f=.1 )
+           
+				   updateNumericInput(session, 'xmin1', value = rn[1], min = rn[1], max = rn[2], step = 1L)
+				   updateNumericInput(session, 'xmin2', value = rn[2], min = rn[1], max = rn[2], step = 1L)
+           
+				   updateNumericInput(session, 'ymin1', value = rnY[1], step = 1L)
+				   updateNumericInput(session, 'ymin2', value = rnY[2], step = 1L)
+           
+					 #sliderInput('xlim', 'X-axis limits:', min=rn[1], max=rn[2], value=c(rn[1], rn[2]), step=1)
+				 }
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	})
 	
 
@@ -180,7 +234,11 @@ shinyServer(function(input, output, clientData, session) {
 			co <- lapply(input$plot_this, function(x) fromJSON(x))
 			pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 			pdf(file, width = 10.0, height = 10.0, onefile = FALSE, paper = input$paper)
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			  plotLineplotLocal(pl=pl, type='legend')
+=======
+			  plotLineplot(pl=pl, type='legend')
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 			dev.off()
 		},
 		contentType = 'application/pdf'
@@ -236,9 +294,15 @@ shinyServer(function(input, output, clientData, session) {
           
           
           if (input$batch_what == "lineplots") {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotLineplotLocal(pl, title=title) 
           } else {
             plotHeatmapLocal(pl, title=title) 
+=======
+            plotLineplot(pl, title=title) 
+          } else {
+            plotHeatmap(pl, title=title) 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
           } 
         }
       } else if(input$batch_how=="rows") {
@@ -250,9 +314,15 @@ shinyServer(function(input, output, clientData, session) {
           if(!nchar(title)) title <- gsub(input$multi_name_flt, '', unique( Map('[[', strsplit(t1, '\n@'), 2) ))
           
           if (input$batch_what == "lineplots") {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotLineplotLocal(pl, title=title) 
           } else {
             plotHeatmapLocal(pl, title=title) 
+=======
+            plotLineplot(pl, title=title) 
+          } else {
+            plotHeatmap(pl, title=title) 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
           } 
         }
       } else if(input$batch_how=="single")  {
@@ -262,9 +332,15 @@ shinyServer(function(input, output, clientData, session) {
             title <- input[[paste0('label_',m,'x',n)]]
             if(!nchar(title)) title <- pl[[1]]$desc
             if (input$batch_what == "lineplots") {
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
               plotLineplotLocal(pl, title=title, legend=FALSE) 
             } else {
               plotHeatmapLocal(pl, title=title, legend=FALSE) 
+=======
+              plotLineplot(pl, title=title, legend=FALSE) 
+            } else {
+              plotHeatmap(pl, title=title, legend=FALSE) 
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             } 
           }  
         }
@@ -283,7 +359,11 @@ shinyServer(function(input, output, clientData, session) {
 		  co <- lapply(input$plot_this, function(x) fromJSON(x))
 		  pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 		  pdf(file, width = as.integer(input$pdf_x_size), height = as.integer(input$pdf_y_size), paper=input$paper)
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		    plotLineplotLocal(pl=pl)		
+=======
+		    plotLineplot(pl=pl)		
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		  dev.off()
 		  #Sys.sleep(1)
 		},
@@ -299,7 +379,11 @@ shinyServer(function(input, output, clientData, session) {
 				co <- lapply(input$plot_this, function(x) fromJSON(x))
 				pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 				pdf(file, width = as.integer(input$pdf_x_size), height = as.integer(input$pdf_y_size), paper=input$paper)
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 					plotHeatmapLocal(pl=pl)				
+=======
+					plotHeatmap(pl=pl)				
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 				dev.off()
 			}
 	)
@@ -311,6 +395,7 @@ shinyServer(function(input, output, clientData, session) {
 	  },
 	  content = function( file ) {
 	    if(!nchar(input$clusters) & !nchar(input$sortingord)) stop('Plot heatmap with clusters or ordering first!')
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	    infile <- file.path(
             'files', 
             basename(names( values$grfile[fromJSON(input$plot_this[[1]])[2]] ))
@@ -335,6 +420,22 @@ shinyServer(function(input, output, clientData, session) {
         gr$FinalOrder <- order(fromJSON(input$finalord))
       
         out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
+=======
+	    infile <- file.path( 'files', names( values$grfile[fromJSON(input$plot_this[[1]])[2]] ) )
+        fcon <- file(infile); gr <- rtracklayer::import( fcon ); close(fcon);
+        elementMetadata(gr) <- elementMetadata(gr)[!sapply( elementMetadata(gr), function(x) all(is.na(x)))]
+	    if( length(colnames(elementMetadata(gr))) ) { colnames(elementMetadata(gr)) <- paste0('metadata_', colnames(elementMetadata(gr))) }
+	    
+      gr$OriginalOrder <- 1:length(gr); 
+      if( nchar(input$clusters) ) 
+        gr$ClusterID <- fromJSON(input$clusters)
+	    if( nchar(input$sortingord) ) 
+        gr$SortingOrder <- order(fromJSON(input$sortingord))
+      
+      gr$FinalOrder <- order(fromJSON(input$finalord))
+      
+      out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	    out <- out[fromJSON(input$finalord),]
       
 	    write.csv(out, file=file, row.names = FALSE)
@@ -374,8 +475,13 @@ shinyServer(function(input, output, clientData, session) {
           
 		  }, error = function(e) {
 		      file.remove( file.path('tmp', input$TR_addFile$name) )
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		      session$sendCustomMessage("jsExec", sprintf( '$("#%s").html(\' <span class="label label-danger">ERROR</span> %s\')', 
 		                                                   input$TR_addFile$jobID, "File processing error..." ))
+=======
+		      session$sendCustomMessage("jsExec", sprintf( '$("#%s").html(\' <span class="label label-important">ERROR</span>\')', 
+		                                                   input$TR_addFile$jobID ))
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		      session$sendCustomMessage("jsAlert", geterrmessage() )
           
 		      #values$refFileGrids <- runif(1)
@@ -383,10 +489,15 @@ shinyServer(function(input, output, clientData, session) {
 		})
 	})
 	
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     #Get the list of save datasets
     updateSelectizeInput(
       session, 'publicRdata', choices = c( '', dir('publicFiles'))
     )
+=======
+  #Get the list of save datasets
+  updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  ' ')
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   
 	#Save dataset file logic
 	observe({
@@ -401,7 +512,11 @@ shinyServer(function(input, output, clientData, session) {
 					
 			message(paste('File saved: ',input$RdataSaveName))
 			session$sendCustomMessage("jsAlert", sprintf("File saved: %s", paste0(input$RdataSaveName, '.Rdata')) )
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			updateSelectizeInput(session, 'publicRdata', choices = c( '', dir('publicFiles')))
+=======
+			updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  ' ')
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		})
 	})
 	
@@ -412,7 +527,11 @@ shinyServer(function(input, output, clientData, session) {
 			file.remove( file.path('publicFiles', input$publicRdata) )
 			message(paste('File removed: ',input$publicRdata))
 			session$sendCustomMessage("jsAlert", sprintf("File removed: %s", input$publicRdata) )
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			updateSelectizeInput(session, 'publicRdata',choices = c( '', dir('publicFiles')))
+=======
+			updateSelectInput(session, 'publicRdata',choices = c( ' ', dir('publicFiles')), selected =  ' ')
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		})
 	})
   
@@ -472,6 +591,7 @@ shinyServer(function(input, output, clientData, session) {
   #Generating feature/track tables
   #TODO: merge in one observer
   
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 # 	#Generate file table for tracks and features
 #   observe({
 #     values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile; input$delFileVar;
@@ -553,6 +673,27 @@ shinyServer(function(input, output, clientData, session) {
   output$trackDT <- fileSelectionDataTable('track')
   output$featureDT <- fileSelectionDataTable('feature')
 
+=======
+	#Generate file table for tracks and features
+  observe({
+    values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile; input$delFileVar;
+    session$sendCustomMessage("jsExec", "$('#tracktable').html('Loading...')")
+    tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='track' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
+    if( nrow(tab) < 1 ) {return(p('No files found!'))} 
+    ex <- as.matrix(tab); rownames(ex) <- NULL; colnames(ex) <- NULL
+    session$sendCustomMessage("jsCreatedDT", list(tab=ex, id='tracktable'))
+  })
+  #Generate file table for features
+	observe({
+		values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
+		session$sendCustomMessage("jsExec", "$('#featuretable').html('Loading...')")
+		tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='feature' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
+		if( nrow(tab) < 1 ) {return(p('No files found!'))}
+		ex <- as.matrix(tab); rownames(ex) <- NULL; colnames(ex) <- NULL
+		session$sendCustomMessage("jsCreatedDT", list(tab=ex, id='featuretable'))
+
+	})
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   
   #Server initiation actions
   observe({
@@ -579,6 +720,7 @@ shinyServer(function(input, output, clientData, session) {
 
   })
   
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   observe({
       if( !input$genomes_uninstall ) return()
       isolate({
@@ -634,6 +776,8 @@ shinyServer(function(input, output, clientData, session) {
       })
   })
   
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   #Exit button logic
   observe({
     if( Sys.getenv("SHINY_SERVER_VERSION") != '') return()
@@ -642,7 +786,10 @@ shinyServer(function(input, output, clientData, session) {
     if( is.null( input$exitconfirmed )) {
       session$sendCustomMessage("jsExec", 'confirm("Are you sure you want to exit!?") ? Shiny.shinyapp.sendInput({"exitconfirmed":true}) : console.log("Exit canceled")')
     } else { 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       session$sendCustomMessage("jsExec", "Shiny.shinyapp.$socket.onclose = null;")
+=======
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       session$sendCustomMessage("jsExec", "window.onbeforeunload = function(){}; window.open('','_self').close();")
       stopApp(returnValue = 'Stopped by user!' )
     }
@@ -657,6 +804,7 @@ shinyServer(function(input, output, clientData, session) {
       session$sendCustomMessage("jsExec", sprintf("$('#file_genome').children().removeAttr('selected').filter('[value=%s]').attr('selected', 'selected')", query$genome))
     }
     
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     for(n in names(query)[!names(query) %in% c('load', 'select', 'genome')] ){
         session$sendInputMessage(n, list(
             value = unlist(strsplit(query[[n]], ',')) 
@@ -672,6 +820,18 @@ shinyServer(function(input, output, clientData, session) {
     }
     
 
+=======
+    if(length(query$load)){
+      #session$sendCustomMessage("jsAlert", sprintf('loading file: [%s]', file.path('publicFiles', query$load)) )
+      values$grfile <- get(load( file.path('publicFiles', query$load) ))
+      updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  query$load)
+      #session$sendCustomMessage("jsExec", sprintf("$('#publicRdata').val('%s').change()", query$load))
+    }
+    for(n in names(query)[!names(query) %in% c('load', 'select', 'genome')] ){
+      session$sendInputMessage(n, list(value = query[[n]]) )
+      
+    }
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     if( is.character(query$select) ) {
       #session$sendCustomMessage("jsAlert", sprintf('Selecting plots: [%s]', query$select) )
       sel <- do.call( rbind, strsplit(strsplit(query$select, ';')[[1]], ',') )

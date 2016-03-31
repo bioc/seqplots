@@ -1,5 +1,6 @@
 if( !Modernizr.inputtypes.color ) { jscolor.bind() };
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 
 $('.grid-all-toggle-btn').click(function() { 
@@ -122,3 +123,19 @@ $('.havettp').tooltip();
 
     // $('#plotTable tr > :nth-child('+num+') input[id*=label]')
     //$('input[id*=",'+num+']"]').click();
+=======
+$('#htmltab th b').click(function() { 
+  $('#htmltab input[value*="["]').click()
+});
+
+$('#htmltab th span span span').click(function() { 
+	var th = $(this).parent().parent().parent();
+	$('input[value*="['+th .parent().children().index(th)+',"]').click()
+});
+
+$("#htmltab tr td:first-child").click(function() { 
+	var num = $(this).parent().parent().children().index($(this).parent()) + 1;
+	$('input[value*=",'+num+']"]').click()
+
+});
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.

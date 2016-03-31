@@ -1,9 +1,15 @@
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 ![SeqPlots](https://github.com/Przemol/seqplots/wiki/img/ico_full_color.png)
 =================================================================================
+=======
+SeqPlots
+========
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 > An interactive tool for visualizing track signals and sequence motif densities along genomic features using average plots and heatmaps
 
 [![Build Status](https://travis-ci.org/Przemol/seqplots.svg?branch=master)](https://travis-ci.org/Przemol/seqplots)
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 [![codecov.io](http://codecov.io/github/Przemol/seqplots/coverage.svg?branch=master)](http://codecov.io/github/Przemol/seqplots?branch=master)
 [![How long since the package was first in a released Bioconductor version (or is it in devel only)](http://bioconductor.org/shields/years-in-bioc/seqplots.svg)](http://bioconductor.org/packages/seqplots)
 
@@ -30,6 +36,12 @@ Demo limits:
 Introduction
 ------------
 
+=======
+
+![Examples of Seq Plots interface and outputs](https://github.com/Przemol/seqplots/wiki/img/00_IntroS.png)
+
+## Introduction
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 The SeqPlots is universal, web browser based tool for plotting
 average track signal (e.g. reads coverage) and sequence motif density over
 user specified genomic features. The data are visualized on linear plot,
@@ -44,6 +56,7 @@ combination plots on fly, run automated batch operations or share with
 colleagues, who can adjust their plotting parameters without loading actual
 tracks and recalculating numeric values.
 
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 Installation
 ------------
 
@@ -143,3 +156,16 @@ References
 
 - Chen RA, Stempor P, Down TA, Zeiser E, Feuer SK, Ahringer J. [Extreme HOT regions are CpG-dense promoters in C. elegans and humans.](http://www.ncbi.nlm.nih.gov/pubmed/24653213) Genome Res 24(7):1138-1146 Jul 2014
 - Latorre I, Chesney MA, Garrigues JM, Stempor P et al. [The DREAM complex promotes gene body H2A.Z for target repression](http://www.ncbi.nlm.nih.gov/pubmed/25737279). Genes Dev 2015 Mar 1;29(5):495-500.
+=======
+## Installation
+```{r}
+source("http://bioconductor.org/biocLite.R")
+biocLite(c("methods", "IRanges", "BSgenome", "digest", "rtracklayer", "GenomicRanges", 
+  "Biostrings", "shiny", "DBI", "RSQLite", "RJSONIO", "plotrix", "fields", "grid", 
+  "kohonen", "Cairo", "parallel", "GenomeInfoDb", "class", "testthat", "BiocStyle",
+  "knitr"))
+
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github('przemol/seqplots', build_vignettes=FALSE)
+```
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.

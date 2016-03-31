@@ -1,6 +1,7 @@
 mcCalcStart <- quote({
   
   if( is.null(input$TR_calculate) )  return()
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   if( is.null( isolate(values$proc)) ) {
     values$calcID <- input$TR_calculate
     updateSelectInput(session, 'publicRdata', 'Load public file', c( '', dir('publicFiles')))
@@ -52,6 +53,22 @@ mcCalcStart <- quote({
        #         x1 = input$plot_upstream, xm = input$anchored_downstream, x2 = input$plot_downstream,
         #        type = input$plot_type, bin= as.numeric(input$BWbin),
          #       cat3=cat3, cat4=cat4, rm0=input$rm0, ignore_strand=input$ignore_strand, add_heatmap=input$add_heatmap, con=con)
+=======
+  
+  values$calcID <- input$TR_calculate
+  updateSelectInput(session, 'publicRdata', 'Load public file', c( ' ', dir('publicFiles')), ' ')
+  values$grfile <- NULL
+  
+  do <- quote({
+    session$sendCustomMessage("jsExec", "$('#progressModal').modal('show').find('#summary2').text('Initializing...').parent().find('#summary3').text('')")
+    cat3 <- function(x) { session$sendCustomMessage("jsExec", sprintf("$('#summary2').text('%s')", x)) }
+    cat4 <- function(x) { session$sendCustomMessage("jsExec", sprintf("$('#summary3').text('%s')", x)) }
+    if ( length( values$SFsetup ) > 0 | length( input$f_tracks ) > 0 ) {
+      procQuick(c(sort(input$f_tracks), values$SFsetup), sort(input$f_features),
+                x1 = input$plot_upstream, xm = input$anchored_downstream, x2 = input$plot_downstream,
+                type = input$plot_type, bin= as.numeric(input$BWbin),
+                cat3=cat3, cat4=cat4, rm0=input$rm0, ignore_strand=input$ignore_strand, add_heatmap=input$add_heatmap, con=con)
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       
     }  else ( stop('Nothing to calculate!') )
   })
@@ -69,6 +86,7 @@ mcCalcStart <- quote({
     
   } else {
     
+<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     mceval(
         do, 
         quote({ 
@@ -78,6 +96,16 @@ mcCalcStart <- quote({
             values$grfile <- res
             session$sendCustomMessage("jsAlert", "Job done!")
         })
+=======
+    mceval(do, NULL,
+           quote({ 
+             values$grfile <- res
+             session$sendCustomMessage("jsAlert", "Job done!")
+             values$plotMsg <- div(style='margin-top:10px;', id=as.character(input$TR_calculate), class="alert alert-success", 
+                                   HTML('<button type="button" class="close" data-dismiss="alert">x</button><strong>Calculation complete!</strong> You can plot or save the results in public files.')
+             ) 
+           }),
+>>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     )
     
 #     if (is.null(isolate(values$proc))) {
