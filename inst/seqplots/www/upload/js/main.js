@@ -28,23 +28,14 @@ $(function () {
       type: 'POST',
       dataType: 'text',
       multipart: false,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       //maxFileSize: 1000000,
       sequentialUploads: true,
       acceptFileTypes: /(\.|\/)(gff|bw|wig.gz|wig|bed|gff.gz|bed.gz|gtf|gtf.gz|bdg|bdg.gz|bedGraph|bedGraph.gz|bigWiggle|bigWig)$/i,
-=======
-      sequentialUploads: true,
-    	acceptFileTypes: '/(\.|\/)(gff|bw|wig.gz|wig|bed|gff.gz|bed.gz)$/i',
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       uploadTemplateId: null,
       downloadTemplateId: null,
       uploadTemplate: tmplUP('template-upload'),
       downloadTemplate: tmplUP('template-download'),
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       submit: function (e, data) {
-=======
-    	submit: function (e, data) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     		//var input = $('#input');
     		//data.formData = {example: input.val()};
         
@@ -59,10 +50,7 @@ $(function () {
      			 //return false;
     		//}
     		if (inputs.filter('[required]').filter(function() { return $(this).val() == ""; }).first().focus().length) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
               data.context.find('button').prop('disabled', false);
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       		  return false;
     		}
     		//lastFile = inputs.serializeArray();
@@ -156,16 +144,10 @@ $(function () {
     });
   
   $('#fileupload').bind('fileuploadadded', function (e, data) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	var mod = $('.f1_genome').filter(':empty').append( $('#file_genome option').clone() );
     mod.children().removeAttr('selected').filter('[value='+ $.cookie('genome') +']').attr('selected', 'selected');
     $('.f1_user').filter(function(){ return($(this).val() == '') }).val( $.cookie('user') );
     $('.template-upload .btn-default').height($('.template-upload input').height());
-=======
-	  var mod = $('.f1_genome').filter(':empty').append( $('#file_genome option').clone() );
-    mod.children().removeAttr('selected').filter('[value='+ $.cookie('genome') +']').attr('selected', 'selected');
-    $('.f1_user').filter(function(){ return($(this).val() == '') }).val( $.cookie('user') );
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   })
   
     $('#fileupload').bind('fileuploadadd', function (e, data) {
@@ -188,7 +170,6 @@ $(function () {
 });
 
 function copyAnnotation(e) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	var name = $(e).parents('.input-group').children('input').prop('name');
 	var value = $(e).parents('.input-group').children('input').val();
 	$("input[name='"+name+"']").val(value);
@@ -196,24 +177,12 @@ function copyAnnotation(e) {
 function copyGenome(e) {
 	var name = $(e).parents('.input-group').children('select').prop('name');
 	var value = $(e).parents('.input-group').children('select').val();
-=======
-	var name = $(e).parent().children('input').prop('name');
-	var value = $(e).parent().children('input').val();
-	$("input[name='"+name+"']").val(value);
-}
-function copyGenome(e) {
-	var name = $(e).parent().children('select').prop('name');
-	var value = $(e).parent().children('select').val();
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	$("select[name='"+name+"']").val(value);
 }
 
 function showDef(e) {
   $('.fileupload-defaults').show();
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   $('.f1_genome_default').children().remove();
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   var mod = $('.f1_genome_default').append( $('#file_genome option').clone() );
   mod.children().removeAttr('selected').filter('[value='+ $.cookie('genome') +']').attr('selected', 'selected');
   $('.f1_user_default').val( $.cookie('user') );
@@ -223,10 +192,6 @@ function showDef(e) {
 function submitDef(e) {
   $.cookie('genome',$('.f1_genome_default').val( ) );
   $.cookie('user',  $('.f1_user_default'  ).val( ) );
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   $.cookie('warn',  $('#f1_warn_default'  ).prop('checked') );
-=======
-  $.cookie('warn',  $('#f1_warn_default'  ).attr('checked')=="checked" );
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   $('.fileupload-defaults').hide();
 }

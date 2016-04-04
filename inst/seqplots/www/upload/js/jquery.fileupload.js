@@ -1,9 +1,5 @@
 /*
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
  * jQuery File Upload Plugin 5.42.2
-=======
- * jQuery File Upload Plugin 5.21
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -13,13 +9,8 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 /* jshint nomen:false */
 /* global define, require, window, document, location, Blob, FormData */
-=======
-/*jslint nomen: true, unparam: true, regexp: true */
-/*global define, window, document, File, Blob, FormData, location */
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 (function (factory) {
     'use strict';
@@ -29,15 +20,12 @@
             'jquery',
             'jquery.ui.widget'
         ], factory);
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     } else if (typeof exports === 'object') {
         // Node/CommonJS:
         factory(
             require('jquery'),
             require('./vendor/jquery.ui.widget')
         );
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     } else {
         // Browser globals:
         factory(window.jQuery);
@@ -45,7 +33,6 @@
 }(function ($) {
     'use strict';
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     // Detect file input support, based on
     // http://viljamis.com/blog/2012/file-upload-support-on-mobile/
     $.support.fileInput = !(new RegExp(
@@ -88,28 +75,6 @@
             }
         };
     }
-=======
-    // The FileReader API is not actually used, but works as feature detection,
-    // as e.g. Safari supports XHR file uploads via the FormData API,
-    // but not non-multipart XHR file uploads:
-    $.support.xhrFileUpload = !!(window.XMLHttpRequestUpload && window.FileReader);
-    $.support.xhrFormDataFileUpload = !!window.FormData;
-
-    // The form.elements propHook is added to filter serialized elements
-    // to not include file inputs in jQuery 1.9.0.
-    // This hooks directly into jQuery.fn.serializeArray.
-    // For more info, see http://bugs.jquery.com/ticket/13306
-    $.propHooks.elements = {
-        get: function (form) {
-            if ($.nodeName(form, 'form')) {
-                return $.grep(form.elements, function (elem) {
-                    return !$.nodeName(elem, 'input') || elem.type !== 'file';
-                });
-            }
-            return null;
-        }
-    };
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
     // The fileupload widget listens for change events on file input fields defined
     // via fileInput setting and paste or drop events of the given dropZone.
@@ -125,15 +90,9 @@
             // The drop target element(s), by the default the complete document.
             // Set to null to disable drag & drop support:
             dropZone: $(document),
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             // The paste target element(s), by the default undefined.
             // Set to a DOM node or jQuery object to enable file pasting:
             pasteZone: undefined,
-=======
-            // The paste target element(s), by the default the complete document.
-            // Set to null to disable paste support:
-            pasteZone: $(document),
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             // The file input field(s), that are listened to for change events.
             // If undefined, it is set to the file input fields inside
             // of the widget element on plugin initialization.
@@ -156,7 +115,6 @@
             // To limit the number of files uploaded with one XHR request,
             // set the following option to an integer greater than 0:
             limitMultiFileUploads: undefined,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             // The following option limits the number of files uploaded with one
             // XHR request to keep the request size under or equal to the defined
             // limit in bytes:
@@ -165,8 +123,6 @@
             // therefore the following option adds an overhead for each file used
             // in the limitMultiFileUploadSize configuration:
             limitMultiFileUploadSizeOverhead: 512,
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             // Set the following option to true to issue all file upload requests
             // in a sequential order:
             sequentialUploads: false,
@@ -207,7 +163,6 @@
             progressInterval: 100,
             // Interval in milliseconds to calculate progress bitrate:
             bitrateInterval: 500,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             // By default, uploads are started automatically when adding files:
             autoUpload: true,
 
@@ -227,8 +182,6 @@
                 }
                 return message;
             },
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
             // Additional form data to be sent along with the file uploads can be set
             // using this option, which accepts an array of objects with name and
@@ -242,7 +195,6 @@
             // The add callback is invoked as soon as files are added to the fileupload
             // widget (via file input selection, drag & drop, paste or add API call).
             // If the singleFileUploads option is enabled, this callback will be
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             // called once for each file in the selection for XHR file uploads, else
             // once for each file selection.
             //
@@ -253,20 +205,10 @@
             // Listeners for this callback can also be bound the following way:
             // .bind('fileuploadadd', func);
             //
-=======
-            // called once for each file in the selection for XHR file uplaods, else
-            // once for each file selection.
-            // The upload starts when the submit method is invoked on the data parameter.
-            // The data object contains a files property holding the added files
-            // and allows to override plugin options as well as define ajax settings.
-            // Listeners for this callback can also be bound the following way:
-            // .bind('fileuploadadd', func);
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             // data.submit() returns a Promise object and allows to attach additional
             // handlers using jQuery's Deferred callbacks:
             // data.submit().done(func).fail(func).always(func);
             add: function (e, data) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -276,9 +218,6 @@
                         data.submit();
                     });
                 }
-=======
-                data.submit();
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             },
 
             // Other callbacks:
@@ -341,14 +280,9 @@
             cache: false
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         // A list of options that require reinitializing event listeners and/or
         // special initialization code:
         _specialOptions: [
-=======
-        // A list of options that require a refresh after assigning a new value:
-        _refreshOptionsList: [
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             'fileInput',
             'dropZone',
             'pasteZone',
@@ -356,7 +290,6 @@
             'forceIframeTransport'
         ],
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         _blobSlice: $.support.blobSlice && function () {
             var slice = this.slice || this.webkitSlice || this.mozSlice;
             return slice.apply(this, arguments);
@@ -364,10 +297,6 @@
 
         _BitrateTimer: function () {
             this.timestamp = ((Date.now) ? Date.now() : (new Date()).getTime());
-=======
-        _BitrateTimer: function () {
-            this.timestamp = +(new Date());
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             this.loaded = 0;
             this.bitrate = 0;
             this.getBitrate = function (now, loaded, interval) {
@@ -389,21 +318,13 @@
 
         _getFormData: function (options) {
             var formData;
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             if ($.type(options.formData) === 'function') {
-=======
-            if (typeof options.formData === 'function') {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 return options.formData(options.form);
             }
             if ($.isArray(options.formData)) {
                 return options.formData;
             }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             if ($.type(options.formData) === 'object') {
-=======
-            if (options.formData) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 formData = [];
                 $.each(options.formData, function (name, value) {
                     formData.push({name: name, value: value});
@@ -421,7 +342,6 @@
             return total;
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         _initProgressObject: function (obj) {
             var progress = {
                 loaded: 0,
@@ -451,12 +371,6 @@
         _onProgress: function (e, data) {
             if (e.lengthComputable) {
                 var now = ((Date.now) ? Date.now() : (new Date()).getTime()),
-=======
-        _onProgress: function (e, data) {
-            if (e.lengthComputable) {
-                var now = +(new Date()),
-                    total,
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                     loaded;
                 if (data._time && data.progressInterval &&
                         (now - data._time < data.progressInterval) &&
@@ -464,7 +378,6 @@
                     return;
                 }
                 data._time = now;
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 loaded = Math.floor(
                     e.loaded / e.total * (data.chunkSize || data._progress.total)
                 ) + (data.uploadedBytes || 0);
@@ -478,18 +391,6 @@
                 );
                 data._progress.loaded = data.loaded = loaded;
                 data._progress.bitrate = data.bitrate = data._bitrateTimer.getBitrate(
-=======
-                total = data.total || this._getTotal(data.files);
-                loaded = parseInt(
-                    e.loaded / e.total * (data.chunkSize || total),
-                    10
-                ) + (data.uploadedBytes || 0);
-                this._loaded += loaded - (data.loaded || data.uploadedBytes || 0);
-                data.lengthComputable = true;
-                data.loaded = loaded;
-                data.total = total;
-                data.bitrate = data._bitrateTimer.getBitrate(
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                     now,
                     loaded,
                     data.bitrateInterval
@@ -497,7 +398,6 @@
                 // Trigger a custom progress event with a total data property set
                 // to the file size(s) of the current upload and a loaded data
                 // property calculated accordingly:
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 this._trigger(
                     'progress',
                     $.Event('progress', {delegatedEvent: e}),
@@ -510,21 +410,6 @@
                     $.Event('progressall', {delegatedEvent: e}),
                     this._progress
                 );
-=======
-                this._trigger('progress', e, data);
-                // Trigger a global progress event for all current file uploads,
-                // including ajax calls queued for sequential file uploads:
-                this._trigger('progressall', e, {
-                    lengthComputable: true,
-                    loaded: this._loaded,
-                    total: this._total,
-                    bitrate: this._bitrateTimer.getBitrate(
-                        now,
-                        this._loaded,
-                        data.bitrateInterval
-                    )
-                });
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             }
         },
 
@@ -548,7 +433,6 @@
             }
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         _isInstanceOf: function (type, obj) {
             // Cross-frame instanceof check
             return Object.prototype.toString.call(obj) === '[object ' + type + ']';
@@ -572,22 +456,6 @@
             }
             if (!multipart) {
                 options.contentType = file.type || 'application/octet-stream';
-=======
-        _initXHRData: function (options) {
-            var formData,
-                file = options.files[0],
-                // Ignore non-multipart setting if not supported:
-                multipart = options.multipart || !$.support.xhrFileUpload,
-                paramName = options.paramName[0];
-            options.headers = options.headers || {};
-            if (options.contentRange) {
-                options.headers['Content-Range'] = options.contentRange;
-            }
-            if (!multipart) {
-                options.headers['Content-Disposition'] = 'attachment; filename="' +
-                    encodeURI(file.name) + '"';
-                options.contentType = file.type;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 options.data = options.blob || file;
             } else if ($.support.xhrFormDataFileUpload) {
                 if (options.postMessage) {
@@ -604,22 +472,14 @@
                     } else {
                         $.each(options.files, function (index, file) {
                             formData.push({
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                                 name: ($.type(options.paramName) === 'array' &&
                                     options.paramName[index]) || paramName,
-=======
-                                name: options.paramName[index] || paramName,
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                                 value: file
                             });
                         });
                     }
                 } else {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                     if (that._isInstanceOf('FormData', options.formData)) {
-=======
-                    if (options.formData instanceof FormData) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                         formData = options.formData;
                     } else {
                         formData = new FormData();
@@ -628,7 +488,6 @@
                         });
                     }
                     if (options.blob) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                         formData.append(paramName, options.blob, file.name);
                     } else {
                         $.each(options.files, function (index, file) {
@@ -641,23 +500,6 @@
                                         options.paramName[index]) || paramName,
                                     file,
                                     file.uploadName || file.name
-=======
-                        options.headers['Content-Disposition'] = 'attachment; filename="' +
-                            encodeURI(file.name) + '"';
-                        formData.append(paramName, options.blob, file.name);
-                    } else {
-                        $.each(options.files, function (index, file) {
-                            // Files are also Blob instances, but some browsers
-                            // (Firefox 3.6) support the File API but not Blobs.
-                            // This check allows the tests to run with
-                            // dummy objects:
-                            if ((window.Blob && file instanceof Blob) ||
-                                    (window.File && file instanceof File)) {
-                                formData.append(
-                                    options.paramName[index] || paramName,
-                                    file,
-                                    file.name
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                                 );
                             }
                         });
@@ -670,21 +512,13 @@
         },
 
         _initIframeSettings: function (options) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             var targetHost = $('<a></a>').prop('href', options.url).prop('host');
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             // Setting the dataType to iframe enables the iframe transport:
             options.dataType = 'iframe ' + (options.dataType || '');
             // The iframe transport accepts a serialized array as form data:
             options.formData = this._getFormData(options);
             // Add redirect url to form data on cross-domain uploads:
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             if (options.redirect && targetHost && targetHost !== location.host) {
-=======
-            if (options.redirect && $('<a></a>').prop('href', options.url)
-                    .prop('host') !== location.host) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 options.formData.push({
                     name: options.redirectParamName || 'redirect',
                     value: options.redirect
@@ -706,11 +540,7 @@
                     options.dataType = 'postmessage ' + (options.dataType || '');
                 }
             } else {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 this._initIframeSettings(options);
-=======
-                this._initIframeSettings(options, 'iframe');
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             }
         },
 
@@ -753,15 +583,10 @@
                 options.url = options.form.prop('action') || location.href;
             }
             // The HTTP request method must be "POST" or "PUT":
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             options.type = (options.type ||
                 ($.type(options.form.prop('method')) === 'string' &&
                     options.form.prop('method')) || ''
                 ).toUpperCase();
-=======
-            options.type = (options.type || options.form.prop('method') || '')
-                .toUpperCase();
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             if (options.type !== 'POST' && options.type !== 'PUT' &&
                     options.type !== 'PATCH') {
                 options.type = 'POST';
@@ -778,7 +603,6 @@
             return options;
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         // jQuery 1.6 doesn't provide .state(),
         // while jQuery 1.8+ removed .isRejected() and .isResolved():
         _getDeferredState: function (deferred) {
@@ -794,8 +618,6 @@
             return 'pending';
         },
 
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         // Maps jqXHR callbacks to the equivalent
         // methods of the given Promise object:
         _enhancePromise: function (promise) {
@@ -820,7 +642,6 @@
             return this._enhancePromise(promise);
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         // Adds convenience methods to the data callback argument:
         _addConvenienceMethods: function (e, data) {
             var that = this,
@@ -881,8 +702,6 @@
             };
         },
 
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         // Parses the Range header from the server response
         // and returns the uploaded bytes:
         _getUploadedBytes: function (jqXHR) {
@@ -899,7 +718,6 @@
         // should be uploaded in chunks, but does not invoke any
         // upload requests:
         _chunkedUpload: function (options, testOnly) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             options.uploadedBytes = options.uploadedBytes || 0;
             var that = this,
                 file = options.files[0],
@@ -907,14 +725,6 @@
                 ub = options.uploadedBytes,
                 mcs = options.maxChunkSize || fs,
                 slice = this._blobSlice,
-=======
-            var that = this,
-                file = options.files[0],
-                fs = file.size,
-                ub = options.uploadedBytes = options.uploadedBytes || 0,
-                mcs = options.maxChunkSize || fs,
-                slice = file.slice || file.webkitSlice || file.mozSlice,
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 dfd = $.Deferred(),
                 promise = dfd.promise(),
                 jqXHR,
@@ -927,11 +737,7 @@
                 return true;
             }
             if (ub >= fs) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 file.error = options.i18n('uploadedBytes');
-=======
-                file.error = 'Uploaded bytes exceed file size';
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 return this._getXHRPromise(
                     false,
                     options.context,
@@ -939,16 +745,10 @@
                 );
             }
             // The chunk upload method:
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             upload = function () {
                 // Clone the options object for each chunk upload:
                 var o = $.extend({}, options),
                     currentLoaded = o._progress.loaded;
-=======
-            upload = function (i) {
-                // Clone the options object for each chunk upload:
-                var o = $.extend({}, options);
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 o.blob = slice.call(
                     file,
                     ub,
@@ -970,17 +770,10 @@
                     .done(function (result, textStatus, jqXHR) {
                         ub = that._getUploadedBytes(jqXHR) ||
                             (ub + o.chunkSize);
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                         // Create a progress event if no final progress event
                         // with loaded equaling total has been triggered
                         // for this chunk:
                         if (currentLoaded + o.chunkSize - o._progress.loaded) {
-=======
-                        // Create a progress event if upload is done and no progress
-                        // event has been invoked for this chunk, or there has been
-                        // no progress event with loaded equaling total:
-                        if (!o.loaded || o.loaded < o.total) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                             that._onProgress($.Event('progress', {
                                 lengthComputable: true,
                                 loaded: ub - o.uploadedBytes,
@@ -1032,7 +825,6 @@
                 this._trigger('start');
                 // Set timer for global bitrate progress calculation:
                 this._bitrateTimer = new this._BitrateTimer();
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 // Reset the global progress values:
                 this._progress.loaded = this._progress.total = 0;
                 this._progress.bitrate = 0;
@@ -1057,42 +849,19 @@
             if (options._progress.loaded < total) {
                 // Create a progress event if no final progress event
                 // with loaded equaling total has been triggered:
-=======
-            }
-            this._active += 1;
-            // Initialize the global progress values:
-            this._loaded += data.uploadedBytes || 0;
-            this._total += this._getTotal(data.files);
-        },
-
-        _onDone: function (result, textStatus, jqXHR, options) {
-            if (!this._isXHRUpload(options) || !options.loaded ||
-                    options.loaded < options.total) {
-                var total = this._getTotal(options.files) || 1;
-                // Create a progress event for each iframe load,
-                // or if there has been no progress event with
-                // loaded equaling total for XHR uploads:
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 this._onProgress($.Event('progress', {
                     lengthComputable: true,
                     loaded: total,
                     total: total
                 }), options);
             }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             response.result = options.result = result;
             response.textStatus = options.textStatus = textStatus;
             response.jqXHR = options.jqXHR = jqXHR;
-=======
-            options.result = result;
-            options.textStatus = textStatus;
-            options.jqXHR = jqXHR;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             this._trigger('done', null, options);
         },
 
         _onFail: function (jqXHR, textStatus, errorThrown, options) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             var response = options._response;
             if (options.recalculateProgress) {
                 // Remove the failed (error or abort) file upload from
@@ -1104,24 +873,11 @@
             response.textStatus = options.textStatus = textStatus;
             response.errorThrown = options.errorThrown = errorThrown;
             this._trigger('fail', null, options);
-=======
-            options.jqXHR = jqXHR;
-            options.textStatus = textStatus;
-            options.errorThrown = errorThrown;
-            this._trigger('fail', null, options);
-            if (options.recalculateProgress) {
-                // Remove the failed (error or abort) file upload from
-                // the global progress calculation:
-                this._loaded -= options.loaded || options.uploadedBytes || 0;
-                this._total -= options.total || this._getTotal(options.files);
-            }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         },
 
         _onAlways: function (jqXHRorResult, textStatus, jqXHRorError, options) {
             // jqXHRorResult, textStatus and jqXHRorError are added to the
             // options object via done and fail callbacks
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             this._trigger('always', null, options);
         },
 
@@ -1129,21 +885,6 @@
             if (!data.submit) {
                 this._addConvenienceMethods(e, data);
             }
-=======
-            this._active -= 1;
-            this._trigger('always', null, options);
-            if (this._active === 0) {
-                // The stop callback is triggered when all uploads have
-                // been completed, equivalent to the global ajaxStop event:
-                this._trigger('stop');
-                // Reset the global progress values:
-                this._loaded = this._total = 0;
-                this._bitrateTimer = null;
-            }
-        },
-
-        _onSend: function (e, data) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             var that = this,
                 jqXHR,
                 aborted,
@@ -1155,15 +896,11 @@
                     // Set timer for bitrate progress calculation:
                     options._bitrateTimer = new that._BitrateTimer();
                     jqXHR = jqXHR || (
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                         ((aborted || that._trigger(
                             'send',
                             $.Event('send', {delegatedEvent: e}),
                             options
                         ) === false) &&
-=======
-                        ((aborted || that._trigger('send', e, options) === false) &&
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                         that._getXHRPromise(false, options.context, aborted)) ||
                         that._chunkedUpload(options) || $.ajax(options)
                     ).done(function (result, textStatus, jqXHR) {
@@ -1171,54 +908,32 @@
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         that._onFail(jqXHR, textStatus, errorThrown, options);
                     }).always(function (jqXHRorResult, textStatus, jqXHRorError) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-=======
-                        that._sending -= 1;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                         that._onAlways(
                             jqXHRorResult,
                             textStatus,
                             jqXHRorError,
                             options
                         );
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                         that._sending -= 1;
                         that._active -= 1;
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                         if (options.limitConcurrentUploads &&
                                 options.limitConcurrentUploads > that._sending) {
                             // Start the next queued upload,
                             // that has not been aborted:
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                             var nextSlot = that._slots.shift();
                             while (nextSlot) {
                                 if (that._getDeferredState(nextSlot) === 'pending') {
-=======
-                            var nextSlot = that._slots.shift(),
-                                isPending;
-                            while (nextSlot) {
-                                // jQuery 1.6 doesn't provide .state(),
-                                // while jQuery 1.8+ removed .isRejected():
-                                isPending = nextSlot.state ?
-                                        nextSlot.state() === 'pending' :
-                                        !nextSlot.isRejected();
-                                if (isPending) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                                     nextSlot.resolve();
                                     break;
                                 }
                                 nextSlot = that._slots.shift();
                             }
                         }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                         if (that._active === 0) {
                             // The stop callback is triggered when all uploads have
                             // been completed, equivalent to the global ajaxStop event:
                             that._trigger('stop');
                         }
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                     });
                     return jqXHR;
                 };
@@ -1231,12 +946,8 @@
                     this._slots.push(slot);
                     pipe = slot.pipe(send);
                 } else {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                     this._sequence = this._sequence.pipe(send, send);
                     pipe = this._sequence;
-=======
-                    pipe = (this._sequence = this._sequence.pipe(send, send));
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 }
                 // Return the piped Promise object, enhanced with an abort method,
                 // which is delegated to the jqXHR object of the current upload,
@@ -1260,21 +971,16 @@
             var that = this,
                 result = true,
                 options = $.extend({}, this.options, data),
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 files = data.files,
                 filesLength = files.length,
                 limit = options.limitMultiFileUploads,
                 limitSize = options.limitMultiFileUploadSize,
                 overhead = options.limitMultiFileUploadSizeOverhead,
                 batchSize = 0,
-=======
-                limit = options.limitMultiFileUploads,
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 paramName = this._getParamName(options),
                 paramNameSet,
                 paramNameSlice,
                 fileSet,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 i,
                 j = 0;
             if (limitSize && (!filesLength || files[0].size === undefined)) {
@@ -1289,25 +995,12 @@
                 paramNameSet = [];
                 for (i = 0; i < filesLength; i += limit) {
                     fileSet.push(files.slice(i, i + limit));
-=======
-                i;
-            if (!(options.singleFileUploads || limit) ||
-                    !this._isXHRUpload(options)) {
-                fileSet = [data.files];
-                paramNameSet = [paramName];
-            } else if (!options.singleFileUploads && limit) {
-                fileSet = [];
-                paramNameSet = [];
-                for (i = 0; i < data.files.length; i += limit) {
-                    fileSet.push(data.files.slice(i, i + limit));
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                     paramNameSlice = paramName.slice(i, i + limit);
                     if (!paramNameSlice.length) {
                         paramNameSlice = paramName;
                     }
                     paramNameSet.push(paramNameSlice);
                 }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             } else if (!options.singleFileUploads && limitSize) {
                 fileSet = [];
                 paramNameSet = [];
@@ -1342,38 +1035,16 @@
                     $.Event('add', {delegatedEvent: e}),
                     newData
                 );
-=======
-            } else {
-                paramNameSet = paramName;
-            }
-            data.originalFiles = data.files;
-            $.each(fileSet || data.files, function (index, element) {
-                var newData = $.extend({}, data);
-                newData.files = fileSet ? element : [element];
-                newData.paramName = paramNameSet[index];
-                newData.submit = function () {
-                    newData.jqXHR = this.jqXHR =
-                        (that._trigger('submit', e, this) !== false) &&
-                        that._onSend(e, this);
-                    return this.jqXHR;
-                };
-                result = that._trigger('add', e, newData);
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 return result;
             });
             return result;
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         _replaceFileInput: function (data) {
             var input = data.fileInput,
                 inputClone = input.clone(true);
             // Add a reference for the new cloned file input to the data argument:
             data.fileInputClone = inputClone;
-=======
-        _replaceFileInput: function (input) {
-            var inputClone = input.clone(true);
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             $('<form></form>').append(inputClone)[0].reset();
             // Detaching allows to insert the fileInput on another form
             // without loosing the file input value:
@@ -1409,7 +1080,6 @@
                     // to be returned together in one set:
                     dfd.resolve([e]);
                 },
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 successHandler = function (entries) {
                     that._handleFileTreeEntries(
                         entries,
@@ -1429,9 +1099,6 @@
                     }, errorHandler);
                 },
                 dirReader, entries = [];
-=======
-                dirReader;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             path = path || '';
             if (entry.isFile) {
                 if (entry._file) {
@@ -1446,18 +1113,7 @@
                 }
             } else if (entry.isDirectory) {
                 dirReader = entry.createReader();
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                 readEntries();
-=======
-                dirReader.readEntries(function (entries) {
-                    that._handleFileTreeEntries(
-                        entries,
-                        path + entry.name + '/'
-                    ).done(function (files) {
-                        dfd.resolve(files);
-                    }).fail(errorHandler);
-                }, errorHandler);
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             } else {
                 // Return an empy list for file system items
                 // other than files or directories:
@@ -1559,7 +1215,6 @@
             this._getFileInputFiles(data.fileInput).always(function (files) {
                 data.files = files;
                 if (that.options.replaceFileInput) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                     that._replaceFileInput(data);
                 }
                 if (that._trigger(
@@ -1567,18 +1222,12 @@
                         $.Event('change', {delegatedEvent: e}),
                         data
                     ) !== false) {
-=======
-                    that._replaceFileInput(data.fileInput);
-                }
-                if (that._trigger('change', e, data) !== false) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                     that._onAdd(e, data);
                 }
             });
         },
 
         _onPaste: function (e) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             var items = e.originalEvent && e.originalEvent.clipboardData &&
                     e.originalEvent.clipboardData.items,
                 data = {files: []};
@@ -1596,25 +1245,10 @@
                     ) !== false) {
                     this._onAdd(e, data);
                 }
-=======
-            var cbd = e.originalEvent.clipboardData,
-                items = (cbd && cbd.items) || [],
-                data = {files: []};
-            $.each(items, function (index, item) {
-                var file = item.getAsFile && item.getAsFile();
-                if (file) {
-                    data.files.push(file);
-                }
-            });
-            if (this._trigger('paste', e, data) === false ||
-                    this._onAdd(e, data) === false) {
-                return false;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             }
         },
 
         _onDrop: function (e) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             e.dataTransfer = e.originalEvent && e.originalEvent.dataTransfer;
             var that = this,
                 dataTransfer = e.dataTransfer,
@@ -1639,52 +1273,21 @@
         _onDragEnter: getDragHandler('dragenter'),
 
         _onDragLeave: getDragHandler('dragleave'),
-=======
-            var that = this,
-                dataTransfer = e.dataTransfer = e.originalEvent.dataTransfer,
-                data = {};
-            if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
-                e.preventDefault();
-            }
-            this._getDroppedFiles(dataTransfer).always(function (files) {
-                data.files = files;
-                if (that._trigger('drop', e, data) !== false) {
-                    that._onAdd(e, data);
-                }
-            });
-        },
-
-        _onDragOver: function (e) {
-            var dataTransfer = e.dataTransfer = e.originalEvent.dataTransfer;
-            if (this._trigger('dragover', e) === false) {
-                return false;
-            }
-            if (dataTransfer && $.inArray('Files', dataTransfer.types) !== -1) {
-                dataTransfer.dropEffect = 'copy';
-                e.preventDefault();
-            }
-        },
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
         _initEventHandlers: function () {
             if (this._isXHRUpload(this.options)) {
                 this._on(this.options.dropZone, {
                     dragover: this._onDragOver,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                     drop: this._onDrop,
                     // event.preventDefault() on dragenter is required for IE10+:
                     dragenter: this._onDragEnter,
                     // dragleave is not required, but added for completeness:
                     dragleave: this._onDragLeave
-=======
-                    drop: this._onDrop
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 });
                 this._on(this.options.pasteZone, {
                     paste: this._onPaste
                 });
             }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             if ($.support.fileInput) {
                 this._on(this.options.fileInput, {
                     change: this._onChange
@@ -1694,35 +1297,17 @@
 
         _destroyEventHandlers: function () {
             this._off(this.options.dropZone, 'dragenter dragleave dragover drop');
-=======
-            this._on(this.options.fileInput, {
-                change: this._onChange
-            });
-        },
-
-        _destroyEventHandlers: function () {
-            this._off(this.options.dropZone, 'dragover drop');
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             this._off(this.options.pasteZone, 'paste');
             this._off(this.options.fileInput, 'change');
         },
 
         _setOption: function (key, value) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             var reinit = $.inArray(key, this._specialOptions) !== -1;
             if (reinit) {
                 this._destroyEventHandlers();
             }
             this._super(key, value);
             if (reinit) {
-=======
-            var refresh = $.inArray(key, this._refreshOptionsList) !== -1;
-            if (refresh) {
-                this._destroyEventHandlers();
-            }
-            this._super(key, value);
-            if (refresh) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                 this._initSpecialOptions();
                 this._initEventHandlers();
             }
@@ -1744,7 +1329,6 @@
             }
         },
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         _getRegExp: function (str) {
             var parts = str.split('/'),
                 modifiers = parts.pop();
@@ -1803,21 +1387,6 @@
         // for the running uploads:
         progress: function () {
             return this._progress;
-=======
-        _create: function () {
-            var options = this.options;
-            // Initialize options set via HTML5 data-attributes:
-            $.extend(options, $(this.element[0].cloneNode(false)).data());
-            this._initSpecialOptions();
-            this._slots = [];
-            this._sequence = this._getXHRPromise(true);
-            this._sending = this._active = this._loaded = this._total = 0;
-            this._initEventHandlers();
-        },
-
-        _destroy: function () {
-            this._destroyEventHandlers();
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         },
 
         // This method is exposed to the widget API and allows adding files
@@ -1866,7 +1435,6 @@
                             if (aborted) {
                                 return;
                             }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                             if (!files.length) {
                                 dfd.reject();
                                 return;
@@ -1874,10 +1442,6 @@
                             data.files = files;
                             jqXHR = that._onSend(null, data);
                             jqXHR.then(
-=======
-                            data.files = files;
-                            jqXHR = that._onSend(null, data).then(
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                                 function (result, textStatus, jqXHR) {
                                     dfd.resolve(result, textStatus, jqXHR);
                                 },

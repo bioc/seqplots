@@ -24,64 +24,53 @@
 #' }
 
 run <- function(
-    root = file.path(path.expand("~"), "SeqPlots_data"), debug = FALSE, ...) {
+        root = file.path(path.expand("~"), "SeqPlots_data"), debug = FALSE, ...
+    ) {
     
     message('Starting...')
     oldwd <- getwd()
     on.exit( {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-        rm(list=c(
+        suppressWarnings(rm(list=c(
             "doFileOperations", "GENOMES", "mcCalcStart", "mcDoParallel", 
             "renderHTMLgrid"
-        ), envir=.GlobalEnv)
+        ), envir=.GlobalEnv))
         setwd(oldwd) 
     })
     
     Sys.setenv(
-        root=root, 
-        web=system.file('seqplots', package='seqplots'), 
-        seqplots_debug=debug
+        root = root,
+        web = system.file('seqplots', package = 'seqplots'),
+        seqplots_debug = debug
     )
     
     if ( !file.exists(root) | any( !file.exists(file.path(root, c(
-        'files.sqlite', 'removedFiles','files','publicFiles', 'tmp'
+        'files.sqlite', 'removedFiles','files','publicFiles', 'tmp', 'genomes'
     ))) ) ) {
-=======
-        rm(list=c("doFileOperations", "GENOMES", "getSF", "heatmapPlotWrapper", 
-                  "imPlot2", "mcCalcStart", "mcDoParallel", "plotMext", 
-                  "procQuick", "renderHTMLgrid" ), envir=.GlobalEnv)
         
-        setwd(oldwd) 
-    })
-    
-    Sys.setenv(root=root, web=system.file('seqplots', package='seqplots'), seqplots_debug=debug)
-    if ( !file.exists(root) | any( !file.exists(file.path(root, c('files.sqlite', 'removedFiles','files','publicFiles', 'tmp'))) ) ) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         dir.create(root)
         setwd(root)
+        
         sqlite <- RSQLite::SQLite()
         con <- dbConnect(sqlite, dbname = 'files.sqlite')
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-        dbGetQuery(con, paste(
-            'CREATE TABLE files (id INTEGER PRIMARY KEY ASC, name TEXT UNIQUE,',
-            'ctime TEXT, type TEXT, format TEXT, genome TEXT, user TEXT,',
-            'comment TEXT)'
-        ))
-        if (!dbListTables(con) == "files") warning('Database not created!')
+        if ( !length(dbListTables(con)) ) {
+            dbGetQuery(con, paste(
+                'CREATE TABLE files (id INTEGER PRIMARY KEY ASC, name TEXT UNIQUE,',
+                'ctime TEXT, type TEXT, format TEXT, genome TEXT, user TEXT,',
+                'comment TEXT)'
+            ))
+            if ( !length(dbListTables(con)) ) warning('Database not created!')
+        }
         dbDisconnect(con)
-        if(!all( 
-            sapply(c('removedFiles','files','publicFiles', 'tmp'), dir.create) 
-        )) warning('Folders not created!')
-=======
-        dbGetQuery(con, 'CREATE TABLE files (id INTEGER PRIMARY KEY ASC, name TEXT UNIQUE, ctime TEXT, type TEXT, format TEXT, genome TEXT, user TEXT, comment TEXT)')
-        if (!dbListTables(con) == "files") warning('Database not created!')
-        dbDisconnect(con)
-        if(!all( sapply(c('removedFiles','files','publicFiles', 'tmp'), dir.create) )) warning('Folders not created!')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
+        
+        if (!all(sapply(
+            c('removedFiles','files','publicFiles', 'tmp', 'genomes'), dir.create
+        ))) warning('Folders not created!')
     }
-    message('\nData loaction: ', root)
     
+    #.libPaths(c( .libPaths(), file.path(root, 'genomes') ))
+    
+    message('\nData loaction: ', root)
     message( shiny::runApp(Sys.getenv('web'), ...) )
     
-    return(invisible(NULL)) 
+    return(invisible(NULL))
 }

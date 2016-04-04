@@ -7,7 +7,7 @@
 
 #options("xtable.sanitize.text.function" = identity)
 options("shiny.maxRequestSize" = -1)
-options("bitmapType" = "cairo")
+#options("bitmapType" = "cairo")
 #options(shiny.reactlog = FALSE)
 
 ##Turn off experimental
@@ -30,27 +30,30 @@ if( Sys.getenv('root') != '' ) {
   con <- dbConnect(sqlite, dbname = 'files.sqlite')
 }
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 shinyServer(function(input, output, clientData, session) {
-	
-  #Test if png is working, require x11 addon on newer Mac OS X if necessary
-  png(tempfile()); plot(1); dev.off()
   
   #Reactive values definition
   subplotSetup <- reactiveValues( )
   urlSetup <- reactiveValues( )
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-  GENOMES <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-  if( length(GENOMES) ) 
-      names(GENOMES) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-  values <- reactiveValues( grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(), genomes=GENOMES )
-=======
-  values <- reactiveValues( grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list() )
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
+  values <- reactiveValues( 
+      grfile=NULL, calcID=NULL, plotMsg=NULL, refFileGrids=NULL, proc=NULL, 
+      im=NULL, clusters=NULL, SFsetup=list(), plotHistory=list(),
+      sessionID=gsub('[^A-Za-z0-9]', '_', session$request$HTTP_SEC_WEBSOCKET_KEY),
+      GENOMES=NULL
+  )
+  
+  updateGenomes <- function() {
+      gen <- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
+      if( length(gen) ) 
+          names(gen) <- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
+      return( gen[!duplicated(gen)] )
+  }    
+
+  observe({
+      values$GENOMES <- updateGenomes()
+  })
   
   #Source functions
   if( Sys.getenv('web') != '' ) setwd(Sys.getenv('web'))
@@ -61,6 +64,7 @@ shinyServer(function(input, output, clientData, session) {
   
   if( Sys.getenv('root') != '' ) setwd(Sys.getenv('root'))
 	suppressMessages( addResourcePath(prefix='files', directoryPath='./files') )
+	suppressMessages( addResourcePath(prefix='tmp', directoryPath='./tmp') )
   
 	#Debug code: Testing eval statement
   if( Sys.getenv("seqplots_debug", FALSE) ) {
@@ -69,13 +73,11 @@ shinyServer(function(input, output, clientData, session) {
 	    isolate( eval(parse(text=input$debug_cmd)) )
 	  })
   }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-    observe({
-        updateSelectInput(session, "file_genome", choices = values$genomes)
-    })
+  observe({
+    updateSelectInput(session, "file_genome", choices = values$GENOMES)
+    updateCheckboxGroupInput(session, 'inst_genomes', choices = unique(installed.genomes()))
+  })
   
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	
   #Add [S]equence [F]eature setup and reset observers
   observe({
@@ -102,22 +104,19 @@ shinyServer(function(input, output, clientData, session) {
   	str(values$SFsetup) 
   })
   
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   #Subclust logic
   observe({
-      input$clusters; input$replot
+      values$clusters; input$replot
       if( !isolate(input$heat_seed) ) {
           updateSelectInput(session, 'heat_subclust', choices='All clusters')
           return()
       }
       if( isolate(input$heat_subclust) != "All clusters") return()
-      clusters <- fromJSON(input$clusters)
+      clusters <- values$clusters
       updateSelectInput(session, 'heat_subclust', choices = c('All clusters', sort(unique(clusters))))
       
   })
   
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   #Multicore calculations definictions 
   observe( mcCalcStart, quoted = TRUE, label = 'BigCalc')
   observe( mcDoParallel, quoted = TRUE, label = 'Plotting')
@@ -134,20 +133,14 @@ shinyServer(function(input, output, clientData, session) {
 	#Rendering plot table	
 	observe({
 		if( is.null(input$publicRdata) ) { return() }		
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		if( input$publicRdata == '' & is.null(values$calcID) )   { values$grfile <- NULL; return() }
 		if( input$publicRdata == '' | !nchar(input$publicRdata) )  { return() }
-=======
-		if( input$publicRdata == ' ' & is.null(values$calcID) )   { values$grfile <- NULL; return() }
-		if( input$publicRdata == ' ' | !nchar(input$publicRdata) )  { return() }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		message('Loading Rdata file: "', input$publicRdata, '"')
 		values$grfile <- get(load( file.path('publicFiles', input$publicRdata )))
 		values$calcID <- NULL
 	})
 	output$htmltab <- reactive({
 		if( is.null( values$grfile ) )	return('')	
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		return( renderHTMLgrid(values$grfile, TRUE, urlSetup$select, addcls=digest::digest(input$publicRdata), isolate(input$subplot_options)) )					
 	})
 	
@@ -168,8 +161,29 @@ shinyServer(function(input, output, clientData, session) {
 	    contentType = 'image/png',
 	    alt = "Image cannot be displayed"
       )
-	}, deleteFile = TRUE)
+	}, deleteFile = FALSE)
+	
+	renderPDF <- function(expr, env=parent.frame(), quoted=FALSE) {
+	    func <- shiny::exprToFunction(expr, env, quoted)
+	    function() {
+	        value <- func()
+	        value
+	    }
+	}
+	
+	output$thecanvas <- renderPDF({
+	    list(im=values$im, id=values$plotid)
+	})
   
+	output$pdfLink <- renderUI({
+	    #if( is.null(values$plotid) ) return()
+	    tags$a(
+	        tags$span(icon("file-pdf-o", "fa-lg"), 'PDF'), 
+	        class="btn btn-small btn-primary", href=values$im, 
+	        target='_new', style='margin-left: 5px'
+	   )
+	}) 
+	
 	#rendering data dependant plot controles
 	observe({
 	    if(!is.null(values$grfile)) {
@@ -185,41 +199,6 @@ shinyServer(function(input, output, clientData, session) {
 	        
 	        #sliderInput('xlim', 'X-axis limits:', min=rn[1], max=rn[2], value=c(rn[1], rn[2]), step=1)
 	    }
-=======
-		return( renderHTMLgrid(values$grfile, TRUE, urlSetup$select, addcls=digest::digest(input$publicRdata)) )					
-	})
-	
-	#Determined if plot and dataset save menu shoud be visible
-	output$showplot <- reactive({ !is.null(input$plot_this) })
-	outputOptions(output, "showplot", suspendWhenHidden = FALSE)
-	
-	#Rendering the image
-	output$image <- renderImage({
-	  if(is.null(values$im)) return(list(src = '',contentType = 'image/png',alt = "No image to plot just yet"))
-	  list(src = values$im,
-	       contentType = 'image/png',
-	       width = 1169,
-	       height = 782,
-	       alt = "This is alternate text")
-	}, deleteFile = TRUE)
-  
-	#renderin data dependant plot controles
-  #outputOptions(output, "plotUI", suspendWhenHidden = FALSE)
-	observe({
-				 if(!is.null(values$grfile)) {
-				   
-				   rn  <- range( values$grfile[[1]][[1]]$all_ind )
-				   rnY <- extendrange( sapply( unlist(values$grfile, recursive=FALSE, use.names=FALSE), '[[', 'means'), f=.1 )
-           
-				   updateNumericInput(session, 'xmin1', value = rn[1], min = rn[1], max = rn[2], step = 1L)
-				   updateNumericInput(session, 'xmin2', value = rn[2], min = rn[1], max = rn[2], step = 1L)
-           
-				   updateNumericInput(session, 'ymin1', value = rnY[1], step = 1L)
-				   updateNumericInput(session, 'ymin2', value = rnY[2], step = 1L)
-           
-					 #sliderInput('xlim', 'X-axis limits:', min=rn[1], max=rn[2], value=c(rn[1], rn[2]), step=1)
-				 }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	})
 	
 
@@ -228,17 +207,13 @@ shinyServer(function(input, output, clientData, session) {
 	#Legend download handler
 	output$downloadLegend <- downloadHandler(
 		filename = function() {
-			paste('Legend_', gsub(' ', '_', Sys.time()), '.pdf', sep='')
+			paste('Legend_', chartr(' :', '_-', Sys.time()), '.pdf', sep='')
 		},
 		content = function(file) {
 			co <- lapply(input$plot_this, function(x) fromJSON(x))
 			pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 			pdf(file, width = 10.0, height = 10.0, onefile = FALSE, paper = input$paper)
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			  plotLineplotLocal(pl=pl, type='legend')
-=======
-			  plotLineplot(pl=pl, type='legend')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 			dev.off()
 		},
 		contentType = 'application/pdf'
@@ -294,15 +269,9 @@ shinyServer(function(input, output, clientData, session) {
           
           
           if (input$batch_what == "lineplots") {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotLineplotLocal(pl, title=title) 
           } else {
             plotHeatmapLocal(pl, title=title) 
-=======
-            plotLineplot(pl, title=title) 
-          } else {
-            plotHeatmap(pl, title=title) 
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
           } 
         }
       } else if(input$batch_how=="rows") {
@@ -314,15 +283,9 @@ shinyServer(function(input, output, clientData, session) {
           if(!nchar(title)) title <- gsub(input$multi_name_flt, '', unique( Map('[[', strsplit(t1, '\n@'), 2) ))
           
           if (input$batch_what == "lineplots") {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             plotLineplotLocal(pl, title=title) 
           } else {
             plotHeatmapLocal(pl, title=title) 
-=======
-            plotLineplot(pl, title=title) 
-          } else {
-            plotHeatmap(pl, title=title) 
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
           } 
         }
       } else if(input$batch_how=="single")  {
@@ -332,15 +295,9 @@ shinyServer(function(input, output, clientData, session) {
             title <- input[[paste0('label_',m,'x',n)]]
             if(!nchar(title)) title <- pl[[1]]$desc
             if (input$batch_what == "lineplots") {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
               plotLineplotLocal(pl, title=title, legend=FALSE) 
             } else {
               plotHeatmapLocal(pl, title=title, legend=FALSE) 
-=======
-              plotLineplot(pl, title=title, legend=FALSE) 
-            } else {
-              plotHeatmap(pl, title=title, legend=FALSE) 
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             } 
           }  
         }
@@ -359,11 +316,7 @@ shinyServer(function(input, output, clientData, session) {
 		  co <- lapply(input$plot_this, function(x) fromJSON(x))
 		  pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 		  pdf(file, width = as.integer(input$pdf_x_size), height = as.integer(input$pdf_y_size), paper=input$paper)
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		    plotLineplotLocal(pl=pl)		
-=======
-		    plotLineplot(pl=pl)		
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		  dev.off()
 		  #Sys.sleep(1)
 		},
@@ -379,11 +332,7 @@ shinyServer(function(input, output, clientData, session) {
 				co <- lapply(input$plot_this, function(x) fromJSON(x))
 				pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
 				pdf(file, width = as.integer(input$pdf_x_size), height = as.integer(input$pdf_y_size), paper=input$paper)
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 					plotHeatmapLocal(pl=pl)				
-=======
-					plotHeatmap(pl=pl)				
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 				dev.off()
 			}
 	)
@@ -394,52 +343,8 @@ shinyServer(function(input, output, clientData, session) {
 	    paste('Clusters_', gsub(' ', '_', Sys.time()), '.csv', sep='')
 	  },
 	  content = function( file ) {
-	    if(!nchar(input$clusters) & !nchar(input$sortingord)) stop('Plot heatmap with clusters or ordering first!')
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-	    infile <- file.path(
-            'files', 
-            basename(names( values$grfile[fromJSON(input$plot_this[[1]])[2]] ))
-        )
-        
-        if(file.exists(infile)) {
-            fcon <- file(infile); gr <- rtracklayer::import( fcon ); close(fcon);
-            elementMetadata(gr) <- elementMetadata(gr)[!sapply( elementMetadata(gr), function(x) all(is.na(x)))]
-	        if( length(colnames(elementMetadata(gr))) ) { colnames(elementMetadata(gr)) <- paste0('metadata_', colnames(elementMetadata(gr))) }
-            gr$OriginalOrder <- 1:length(gr); 
-        } else {
-            warning('The file "', infile, '" does not exist on local file system.')
-            gr <- data.frame( OriginalOrder=1:length(fromJSON(input$finalord)) ) 
-        }
-        
-        
-        if( nchar(input$clusters) ) 
-            gr$ClusterID <- fromJSON(input$clusters)
-	    if( nchar(input$sortingord) ) 
-            gr$SortingOrder <- order(fromJSON(input$sortingord))
-      
-        gr$FinalOrder <- order(fromJSON(input$finalord))
-      
-        out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
-=======
-	    infile <- file.path( 'files', names( values$grfile[fromJSON(input$plot_this[[1]])[2]] ) )
-        fcon <- file(infile); gr <- rtracklayer::import( fcon ); close(fcon);
-        elementMetadata(gr) <- elementMetadata(gr)[!sapply( elementMetadata(gr), function(x) all(is.na(x)))]
-	    if( length(colnames(elementMetadata(gr))) ) { colnames(elementMetadata(gr)) <- paste0('metadata_', colnames(elementMetadata(gr))) }
-	    
-      gr$OriginalOrder <- 1:length(gr); 
-      if( nchar(input$clusters) ) 
-        gr$ClusterID <- fromJSON(input$clusters)
-	    if( nchar(input$sortingord) ) 
-        gr$SortingOrder <- order(fromJSON(input$sortingord))
-      
-      gr$FinalOrder <- order(fromJSON(input$finalord))
-      
-      out <- as.data.frame(gr); colnames(out)[1] <- 'chromosome'
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
-	    out <- out[fromJSON(input$finalord),]
-      
-	    write.csv(out, file=file, row.names = FALSE)
-	    #cat(fromJSON(input$clusters), sep='\n', file=file)
+	    if( is.null(values$clustrep) ) stop('Plot heatmap with clusters or ordering first!')
+	    write.csv(values$clustrep, file=file, row.names = FALSE)
 	  }
 	)
 
@@ -475,13 +380,8 @@ shinyServer(function(input, output, clientData, session) {
           
 		  }, error = function(e) {
 		      file.remove( file.path('tmp', input$TR_addFile$name) )
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 		      session$sendCustomMessage("jsExec", sprintf( '$("#%s").html(\' <span class="label label-danger">ERROR</span> %s\')', 
 		                                                   input$TR_addFile$jobID, "File processing error..." ))
-=======
-		      session$sendCustomMessage("jsExec", sprintf( '$("#%s").html(\' <span class="label label-important">ERROR</span>\')', 
-		                                                   input$TR_addFile$jobID ))
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		      session$sendCustomMessage("jsAlert", geterrmessage() )
           
 		      #values$refFileGrids <- runif(1)
@@ -489,15 +389,10 @@ shinyServer(function(input, output, clientData, session) {
 		})
 	})
 	
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     #Get the list of save datasets
     updateSelectizeInput(
       session, 'publicRdata', choices = c( '', dir('publicFiles'))
     )
-=======
-  #Get the list of save datasets
-  updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  ' ')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   
 	#Save dataset file logic
 	observe({
@@ -512,11 +407,7 @@ shinyServer(function(input, output, clientData, session) {
 					
 			message(paste('File saved: ',input$RdataSaveName))
 			session$sendCustomMessage("jsAlert", sprintf("File saved: %s", paste0(input$RdataSaveName, '.Rdata')) )
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			updateSelectizeInput(session, 'publicRdata', choices = c( '', dir('publicFiles')))
-=======
-			updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  ' ')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		})
 	})
 	
@@ -527,11 +418,7 @@ shinyServer(function(input, output, clientData, session) {
 			file.remove( file.path('publicFiles', input$publicRdata) )
 			message(paste('File removed: ',input$publicRdata))
 			session$sendCustomMessage("jsAlert", sprintf("File removed: %s", input$publicRdata) )
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 			updateSelectizeInput(session, 'publicRdata',choices = c( '', dir('publicFiles')))
-=======
-			updateSelectInput(session, 'publicRdata',choices = c( ' ', dir('publicFiles')), selected =  ' ')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 		})
 	})
   
@@ -548,18 +435,27 @@ shinyServer(function(input, output, clientData, session) {
   #Feature and track tables - multiple file removal
   observe({
     if( is.null(input$TR_delate) ) return()
-    isolate({      
+    isolate({    
+        f_delate <- c(
+            values$track[input$trackDT_rows_selected,'name'],
+            values$feature[input$featureDT_rows_selected,'name']
+        )
+    
+        #actionButton('test', 'TEST', onClick="Shiny.onInputChange('confirm', confirm('Are you sure?'));")    
+        
       rmf <- function(x) {
         sql_string <- paste0("DELETE FROM files WHERE name = '", x , "'")
         row_aff <- dbGetRowsAffected(dbSendQuery(con, sql_string))
         moved <- file.rename(file.path('files',  x), file.path('removedFiles', x))
         if(row_aff & moved) return(TRUE) else return(FALSE)
       }
-      res <- sapply( input$f_delate, rmf)
+      res <- sapply( f_delate, rmf)
       session$sendCustomMessage("jsAlert", sprintf("Db=%i; Mv=%i; OK", sum(res), sum(res)) )
       values$refFileGrids <- runif(1)	
     })
   })
+  
+
 
   #Subplot setup logic
   observe({ 
@@ -591,7 +487,6 @@ shinyServer(function(input, output, clientData, session) {
   #Generating feature/track tables
   #TODO: merge in one observer
   
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 # 	#Generate file table for tracks and features
 #   observe({
 #     values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile; input$delFileVar;
@@ -616,97 +511,88 @@ shinyServer(function(input, output, clientData, session) {
   
   #Generate file table for tracks and features with function
   fileSelectionDataTable <- function(type) {
-    dt_opt <- reactive({
-        values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
-            dat <- I(jsonlite::toJSON(as.matrix(cbind(
-                dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "'"))[,c(-1,-4)],
-            se='',  dl='',  rm=''))))
-            list(
-              ##Force client side processing, should be avoided for very long tables
-              data=dat,
-              ajax='',
-              processing=FALSE,
-              serverSide=FALSE,
-              
-              ##Other options
-              lengthMenu=I('[[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]'),
-              # "<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>"
-              dom="<'row'<'col-md-4'i><'.selectionsInfo col-md-1'><'col-md-6 pull-right'Tf>><'row'<'col-md-12'tr>><'row'<'col-md-6'l><'col-md-6'p>>",
-              order=I('[[ 1, "desc" ]]'),
-              language=I('{"sLengthMenu": "_MENU_ records per page"}'),
-              columns=I( readLines(file.path(Sys.getenv("web", '.'), 'ui/FataTablesColumnSetup.js')) ),
-              oTableTools=I( readLines(file.path(Sys.getenv("web", '.'), 'ui/DataTablesToolsSetup.js')) ),
-              scrollY=paste0(input$tabtest, "px"),
-              scrollX="true",
-              deferRender=I("false"),
-              pageLength=10,
-              #       rowCallback=I('function( row, data ) {
-              #         console.log(data[0])
-              #         if ( $.inArray(data[0], selected) !== -1 ) {
-              #           $(row).addClass("selected");
-              #           $(row).find(".select_indicator").removeClass( "icon-check-empty" ).addClass( "icon-check" );
-              #         }
-              #       }'),
-              pagingType="full_numbers"
-           )
-      })
-      
-      out <- renderDataTable({
-        ##Client side processing, code irrelavent
-            tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
-            if( nrow(tab) < 1 ) {return(p('No files found!'))} 
-            return(cbind(tab, se='',  dl='',  rm=''))
+
+      out <- DT::renderDataTable({
         
-        }, options = dt_opt, 
-        callback = I("function(oTable) {
-          var table = $('#' + oTable.context[0].sTableId);
-          var tables = table.parents('.dataTables_wrapper').find('table')
-          tables.addClass('table-condensed table-bordered');
-          //zzz=oTable.context[0];
-          oTable.draw();
-          $(tables[2]).removeClass('table-bordered');
-        }")
-      )
-      return(out)
-    }
+        values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
+          
+        tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='", type, "' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
+        if( nrow(tab) < 1 ) {return(p('No files found!'))} 
+        
+        rownames(tab) <- tab$name
+        values[[type]] <- tab
+        
+        #tab$ctime <- as.POSIXct(tab$ctime)
+        tab <- cbind(tab,  dl='',  rm='')
+        rownames(tab) <- NULL
+        
+        options = list(
+            lengthChange = TRUE,
+            order=DT::JS('[[ 1, "desc" ]]'),
+            lengthMenu=DT::JS('[[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]'),
+            language=DT::JS('{"sLengthMenu": "_MENU_ records per page"}'),
+            dom="<'row'<'col-md-4'i><'col-md-3'B><'col-md-5'f>><'row'<'col-md-12'tr>><'row'<'col-md-6'l><'col-md-6'p>>",
+            columns=DT::JS( readLines(file.path(Sys.getenv("web", '.'), 'ui/DataTablesColumnSetup.js')) ),
+            searchHighlight = TRUE,
+            searchCols=DT::JS('[null,null,null,null,{"search": typeof demo == "undefined" ? null : demo}]'),
+            pagingType="full_numbers",
+            searchDelay=10,
+            processing = TRUE,
+            search = list(regex = TRUE)
+            #,buttons = list(list(extend = 'colvis', columns = c(0, 1, 2, 3, 4)))
+        )
+        
+        dt <- DT::datatable(
+            tab,
+            rownames = FALSE,
+            filter = 'bottom',
+            options = options,
+            selection = 'multiple'
+            #,extensions = 'Buttons'
+       
+        ) 
+        return(dt)
+      })
+  }
+      
+        #options = dt_opt
+#         callback = DT::JS("function(oTable) {
+#           var table = $('#' + oTable.context[0].sTableId);
+#           var tables = table.parents('.dataTables_wrapper').find('table')
+#           tables.addClass('table-condensed table-bordered');
+#           //zzz=oTable.context[0];
+#           oTable.draw();
+#           $(tables[2]).removeClass('table-bordered');
+#         }")
+#      )
+
   
-  output$trackDT <- fileSelectionDataTable('track')
+  output$trackDT <- fileSelectionDataTable('track')   
+                                        
+                                        
+      
+
   output$featureDT <- fileSelectionDataTable('feature')
-
-=======
-	#Generate file table for tracks and features
-  observe({
-    values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile; input$delFileVar;
-    session$sendCustomMessage("jsExec", "$('#tracktable').html('Loading...')")
-    tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='track' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
-    if( nrow(tab) < 1 ) {return(p('No files found!'))} 
-    ex <- as.matrix(tab); rownames(ex) <- NULL; colnames(ex) <- NULL
-    session$sendCustomMessage("jsCreatedDT", list(tab=ex, id='tracktable'))
-  })
-  #Generate file table for features
-	observe({
-		values$refFileGrids; input$reloadgrid; input$files; input$TR_delfile; input$upload; input$TR_addFile;
-		session$sendCustomMessage("jsExec", "$('#featuretable').html('Loading...')")
-		tab <- dbGetQuery(con, paste0("SELECT * FROM files WHERE type='feature' AND name LIKE('%",input$filter_all,"%')"))[,c(-1,-4)]
-		if( nrow(tab) < 1 ) {return(p('No files found!'))}
-		ex <- as.matrix(tab); rownames(ex) <- NULL; colnames(ex) <- NULL
-		session$sendCustomMessage("jsCreatedDT", list(tab=ex, id='featuretable'))
-
-	})
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   
-  #Server initiation actions
   observe({
   	session$sendCustomMessage("jsExec", "Shiny.shinyapp.$socket.onclose = function () { $(document.body).addClass('disconnected'); alert('Connection to server lost!'); }")
     session$sendCustomMessage("jsExec", "$('.load_div').fadeOut(1000);")
     session$sendCustomMessage("jsExec", "animateTitle();")
+    if(Sys.getenv('tutorial', TRUE)) session$sendCustomMessage("jsExec", "startTutorial();")
+    
+    
     #Session elem:  "clientData","input","isClosed","onFlush","onFlushed","onSessionEnded","output","request","sendCustomMessage","sendInputMessage" 
     #sapply(ls(session$request), function(x) session$request[[x]])
   	#sapply(names(session$clientData), function(x) session$clientData[[x]])
   	#str(as.list(session$clientData))
+    
     message(Sys.time(), ' -> Running at ', session$request$HTTP_ORIGIN, ', ', session$clientData$url_hostname, ' [', session$request$HTTP_SEC_WEBSOCKET_KEY, ']')
   })
+  session$onSessionEnded(function() { 
+      unlink(file.path(Sys.getenv('root'), 'tmp', isolate(values$sessionID)), recursive=TRUE) 
+  })
   session$onSessionEnded(function() { message(Sys.time(), ' -> Client connection closed', ' [', session$request$HTTP_SEC_WEBSOCKET_KEY, ']' ) })
+
   
   #Server reset action
   observe({
@@ -720,7 +606,6 @@ shinyServer(function(input, output, clientData, session) {
 
   })
   
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   observe({
       if( !input$genomes_uninstall ) return()
       isolate({
@@ -730,12 +615,7 @@ shinyServer(function(input, output, clientData, session) {
           sapply(.libPaths(), function(lib) 
               try(remove.packages(input$inst_genomes, lib = lib))
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
-          #updateSelectInput(session, "file_genome", choices = GENOMES)
+          values$GENOMES <- updateGenomes()
       })
   })
   
@@ -749,12 +629,7 @@ shinyServer(function(input, output, clientData, session) {
               input$genomes_file$datapath, repos = NULL, 
               lib=file.path(Sys.getenv('root'), 'genomes'), type='source'
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
-          
+          values$GENOMES <- updateGenomes()
       })
   })
   
@@ -768,16 +643,11 @@ shinyServer(function(input, output, clientData, session) {
               input$avil_geneomes, suppressUpdates=TRUE, ask=FALSE, 
               lib=file.path(Sys.getenv('root'), 'genomes')
           )
-          updateCheckboxGroupInput(session, 'inst_genomes', choices = installed.genomes())
-          GENOMES <<- BSgenome:::installed.genomes(splitNameParts=TRUE)$provider_version
-          if( length(GENOMES) ) 
-              names(GENOMES) <<- gsub('^BSgenome.', '', BSgenome:::installed.genomes())
-          values$genomes <- GENOMES
+          updateSelectInput(session, 'avil_geneomes', selected = '')
+          values$GENOMES <- updateGenomes()
       })
   })
   
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
   #Exit button logic
   observe({
     if( Sys.getenv("SHINY_SERVER_VERSION") != '') return()
@@ -786,10 +656,7 @@ shinyServer(function(input, output, clientData, session) {
     if( is.null( input$exitconfirmed )) {
       session$sendCustomMessage("jsExec", 'confirm("Are you sure you want to exit!?") ? Shiny.shinyapp.sendInput({"exitconfirmed":true}) : console.log("Exit canceled")')
     } else { 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       session$sendCustomMessage("jsExec", "Shiny.shinyapp.$socket.onclose = null;")
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       session$sendCustomMessage("jsExec", "window.onbeforeunload = function(){}; window.open('','_self').close();")
       stopApp(returnValue = 'Stopped by user!' )
     }
@@ -804,7 +671,6 @@ shinyServer(function(input, output, clientData, session) {
       session$sendCustomMessage("jsExec", sprintf("$('#file_genome').children().removeAttr('selected').filter('[value=%s]').attr('selected', 'selected')", query$genome))
     }
     
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     for(n in names(query)[!names(query) %in% c('load', 'select', 'genome')] ){
         session$sendInputMessage(n, list(
             value = unlist(strsplit(query[[n]], ',')) 
@@ -820,18 +686,6 @@ shinyServer(function(input, output, clientData, session) {
     }
     
 
-=======
-    if(length(query$load)){
-      #session$sendCustomMessage("jsAlert", sprintf('loading file: [%s]', file.path('publicFiles', query$load)) )
-      values$grfile <- get(load( file.path('publicFiles', query$load) ))
-      updateSelectInput(session, 'publicRdata', choices = c( ' ', dir('publicFiles')), selected =  query$load)
-      #session$sendCustomMessage("jsExec", sprintf("$('#publicRdata').val('%s').change()", query$load))
-    }
-    for(n in names(query)[!names(query) %in% c('load', 'select', 'genome')] ){
-      session$sendInputMessage(n, list(value = query[[n]]) )
-      
-    }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     if( is.character(query$select) ) {
       #session$sendCustomMessage("jsAlert", sprintf('Selecting plots: [%s]', query$select) )
       sel <- do.call( rbind, strsplit(strsplit(query$select, ';')[[1]], ',') )
@@ -842,6 +696,66 @@ shinyServer(function(input, output, clientData, session) {
     }
     #strsplit(strsplit("1,1;3,2", ';')[[1]], ',')
     # paste(names(reactiveValuesToList(input)), reactiveValuesToList(input), sep = "=", collapse="&")
+  })
+  
+  output$nselected <- renderText({
+      paste(length(input$trackDT_rows_selected), 'track(s) selected')
+  })
+  
+  observe({
+      if(input$selFilt==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$trackDT_rows_all)
+      })
+  })
+  
+  observe({
+      if(input$selPage==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, union(input$trackDT_rows_selected, input$trackDT_rows_current))
+      })
+  })
+  
+  observe({
+      if(input$selNone==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('trackDT')
+          DT::selectRows(proxy, NULL)
+      })
+  })
+  
+  #######
+  
+  output$nselectedFT <- renderText({
+      paste(length(input$featureDT_rows_selected), 'feature(s) selected')
+  })
+  
+  observe({
+      if(input$selFiltFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, NULL)
+          DT::selectRows(proxy, input$featureDT_rows_all)
+      })
+  })
+  
+  observe({
+      if(input$selPageFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, union(input$featureDT_rows_selected, input$featureDT_rows_current))
+      })
+  })
+  
+  observe({
+      if(input$selNoneFT==0) return()
+      isolate({
+          proxy <- DT::dataTableProxy('featureDT')
+          DT::selectRows(proxy, NULL)
+      })
   })
 
 ##Turn off experimental

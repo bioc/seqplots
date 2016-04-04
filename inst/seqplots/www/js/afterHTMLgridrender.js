@@ -1,6 +1,5 @@
 if( !Modernizr.inputtypes.color ) { jscolor.bind() };
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 
 $('.grid-all-toggle-btn').click(function() { 
@@ -105,8 +104,9 @@ $('.chdr-numeric-auto-input').change(function() {
 $('.chdrrowcol').click(function() { 
     $('#plotTable input[id*=label_]').each( function(x) { 
         var z = $(this).attr('id'); 
-        var x = z.match('_(.)x(.)$')[1];
-        var y = z.match('_(.)x(.)$')[2];
+        console.log(this);
+        var x = z.match('_(.+)x(.+)$')[1];
+        var y = z.match('_(.+)x(.+)$')[2];
         var v = $('#hhdr_' + x).val() + ' @ ' + $('#rhdrs_' + y).val();
         $(this).val(v).change();
     })
@@ -123,19 +123,3 @@ $('.havettp').tooltip();
 
     // $('#plotTable tr > :nth-child('+num+') input[id*=label]')
     //$('input[id*=",'+num+']"]').click();
-=======
-$('#htmltab th b').click(function() { 
-  $('#htmltab input[value*="["]').click()
-});
-
-$('#htmltab th span span span').click(function() { 
-	var th = $(this).parent().parent().parent();
-	$('input[value*="['+th .parent().children().index(th)+',"]').click()
-});
-
-$("#htmltab tr td:first-child").click(function() { 
-	var num = $(this).parent().parent().children().index($(this).parent()) + 1;
-	$('input[value*=",'+num+']"]').click()
-
-});
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.

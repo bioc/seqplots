@@ -55,11 +55,7 @@
 #'    Application Framework for R. R package version 0.10.1.
 #'    \url{http://shiny.rstudio.com/}.
 #'   \item Other CRAN packages: digest,
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 #'    DBI,RSQLite, jsonlite, plotrix, fields, grid, kohonen, Cairo, parallel 
-=======
-#'    DBI,RSQLite, RJSONIO, plotrix, fields, grid, kohonen, Cairo, parallel 
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #'   \item Bioconductor packages: IRanges, BSgenome, Rsamtools, rtracklayer,
 #'    GenomicRanges and Biostrings
 #'   }
@@ -139,16 +135,12 @@
 #' @author Przemyslaw Stempor
 #' 
 #' @import rtracklayer GenomicRanges BSgenome Biostrings IRanges GenomeInfoDb
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-#' @import DBI RSQLite parallel Cairo jsonlite
-#' @import grid methods digest methods
+#' @import DBI RSQLite parallel jsonlite
+#' @import methods digest methods
 #' @import ggplot2 reshape2 gridExtra DT RColorBrewer
-=======
-#' @import DBI RSQLite parallel RJSONIO Cairo
-#' @import grid methods digest methods
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #' @importFrom fields image.plot set.panel imageplot.info imageplot.setup 
 #' tim.colors poly.image
+#' @importFrom grid textGrob gpar grid.draw
 #' @importFrom kohonen supersom
 #' @importFrom plotrix dispersion
 #' @importFrom shiny runApp

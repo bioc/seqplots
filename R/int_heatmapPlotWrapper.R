@@ -46,39 +46,27 @@
 #'   \code{\link[grDevices]{grDevices}}
 #' @param pointsize The default font point size to be used for plots. Defaults
 #'   to 12 (1/72 inch).
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 #' @param embed Configures heatmap to be used embedded plot. Defaults
 #'   to FALSE 
 #' @param raster Uses raster graphics for heatmaps. Defaults to FALSE
 #' @param ylim Y axis limits. Defaults to c(nrow(MAT[[1]]),1) 
 #' @param dendro Dendrogram object, will be plotted left to heatmaps. Defaults 
 #'   to NULL
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #'   
 #' @return \code{NULL}
 #'   
 #' @keywords internal
 #'   
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
     bins=1:(ncol(MAT[[1]])/length(MAT)), cex.lab=12.0, cex.axis=12.0, 
     cex.legend=12.0, xlab='', ylab="", Leg=TRUE, autoscale=TRUE, zmin=0, 
     zmax=10, xlim=NULL, ln.v=TRUE, e=NULL, s = 0.01, indi=TRUE,
     o_min=NA, o_max=NA, colvec=NULL, colorspace=NULL, pointsize=12,
     embed=FALSE, raster=FALSE, ylim=c(nrow(MAT[[1]]),1), dendro=NULL, ...) {
-=======
-heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),    
-    bins=1:(ncol(MAT[[1]])/length(MAT)), cex.lab=12.0, cex.axis=12.0, 
-    cex.legend=12.0, xlab='', ylab="", Leg=TRUE, autoscale=TRUE, zmin=0, zmax=10, 
-    xlim=NULL, ln.v=TRUE, e=NULL, s = 0.01, indi=TRUE,
-    o_min=NA, o_max=NA, colvec=NULL, colorspace=NULL, pointsize=12) {
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     
     lfs  <- cex.lab / pointsize
     afs  <- cex.axis / pointsize
     lgfs <- cex.legend / pointsize
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     
     datapoints <- unlist(MAT)
     NP <- length(MAT)
@@ -95,22 +83,6 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
             "#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", 
             "#FF7F00", "red", "#7F0000"
         ))     
-=======
-    opar <- par(no.readonly = TRUE)
-    
-    datapoints <- unlist(MAT)
-    NP=length(MAT)
-    raster <- length(unique(diff(bins)))==1
-    
-    #colvec[ grepl('#ffffff', colvec) ] <- NA
-    ncollevel = 64
-    if(length(colorspace)) {
-        gcol <- colorRampPalette(colorspace)
-    }else {
-        gcol <- colorRampPalette(
-            c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-        #colorRampPalette(c("#053061","#2166AC","#4393C3","#92C5DE","#D1E5F0","#F7F7F7","#FDDBC7","#F4A582","#D6604D","#B2182B","#67001F"))     
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     }
     min <- min(datapoints, na.rm=TRUE)
     max <- max(datapoints, na.rm=TRUE) 
@@ -121,7 +93,6 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
             zmin<-zlim[1]
             zmax<-zlim[2]
         } 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         if(!embed) 
             layout(
                 matrix(seq(NP+1), nrow=1, ncol=NP+1), 
@@ -157,28 +128,11 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
         data <- MAT[[i]]
         
 
-=======
-        #par(oma = c(0, 0, 3, 0))
-        layout(matrix(seq(NP+1), nrow=1, ncol=NP+1), widths=c(rep(12/NP,NP),1), heights=rep(1,NP+1))
-        ColorRamp <-gcol(ncollevel)
-        ColorLevels <- seq(to=zmax,from=zmin, length=ncollevel)   #number sequence
-    } else {
-        invisible(capture.output( set.panel(1, NP) ))
-    }
-    
-    
-    
-    for (i in seq(NP)) {
-        data <- MAT[[i]]
-        
-        par(cex=1, cex.main=lfs, cex.lab=lfs, cex.axis=afs)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         xinds <- if (is.null(xlim)) range(bins) else xlim
         
         if( !indi ) {
             data[data<zmin] <- zmin
             data[data>zmax] <- zmax
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             ColorRamp_ex <- ColorRamp[round( 
                 (min(data, na.rm=TRUE)-zmin)*ncollevel/(zmax-zmin) ) : round( 
                     (max(data, na.rm=TRUE)-zmin)*ncollevel/(zmax-zmin) 
@@ -210,14 +164,6 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
                         par("usr")[4],col="lightgrey"
                     )
                 }, ...
-=======
-            ColorRamp_ex <- ColorRamp[round( (min(data, na.rm=TRUE)-zmin)*ncollevel/(zmax-zmin) ) : round( (max(data, na.rm=TRUE)-zmin)*ncollevel/(zmax-zmin) )]
-            image(bins, 1:nrow(data), t(data), axes=TRUE, col=ColorRamp_ex, xlab=xlab, ylab=ylab, xlim=if (is.null(xlim)) range(bins) else xlim, add=FALSE, ylim=c(nrow(data),1),
-                  useRaster=raster, xaxt="n", panel.first={
-                      if(is.null(e)) axis(1) else axis(1, at=c(min(xinds), 0,  e, max(xinds)), labels=c(min(xinds), '0', '0', max(xinds)-e))
-                      rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col="lightgrey")
-                }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             )
             
         } else {
@@ -227,7 +173,6 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
                 zmax<-zlim[2]
             } 
             
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             if( is.na(o_min[i]) ) data[data<zmin] <- zmin 
                 else data[data<o_min[i]] <- o_min[i]
             if( is.na(o_max[i]) ) data[data>zmax] <- zmax 
@@ -262,29 +207,10 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
                 axis.args=list(cex.axis=afs), ...
             )
             
-=======
-            if( is.na(o_min[i]) ) data[data<zmin] <- zmin else data[data<o_min[i]] <- o_min[i]
-            if( is.na(o_max[i]) ) data[data>zmax] <- zmax else data[data>o_max[i]] <- o_max[i]
-            
-            keycolor_lim <- range(data, na.rm=TRUE)
-            if( is.na(o_min[i]) ) keycolor_lim[1] <- zmin else keycolor_lim[1] <- o_min[i]
-            if( is.na(o_max[i]) ) keycolor_lim[2] <- zmax else keycolor_lim[2] <- o_max[i]
-            
-            col <- if( is.character(colvec[i]) ) colorRampPalette(c('white', colvec[i]))(ncollevel) else gcol(ncollevel)
-            
-            #par(cex=1, cex.main=lfs, cex.lab=lfs, cex.axis=afs)
-            
-            imPlot2(bins, 1:nrow(data), t(data), axes=TRUE, xlab=xlab, ylab=ylab, 
-                    xlim=if (is.null(xlim)) range(bins) else xlim,  ylim=c(nrow(data),1),
-                    zlim=keycolor_lim, col=col,
-                    legend.width=1, horizontal=TRUE, useRaster=raster, 
-                    xinds=xinds, e=e, xaxt="n")
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             
             
             
         }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         title( main=titles[i], cex.main=lfs ); box()
         if (!is.null(axhline)){
             #message(paste(axhline, collapse=', '))
@@ -318,26 +244,4 @@ heatmapPlotWrapper <- function(MAT, axhline=NULL, titles=rep('', length(MAT)),
         par(opar)
     }
     if(!embed) layout(1)
-=======
-        title( main=titles[i]); box()
-        if (!is.null(axhline)){
-            hi = 0
-            for (i in axhline){
-                hi = hi+i
-                abline(hi+0.5,0,lwd=4)
-            }
-        }
-        if (ln.v){
-            abline(v=c(0, e), lwd=2)
-        }
-    }
-    
-    #draw legend/color key for multiple heatmaps
-    if(Leg & !indi) {
-        par(cex.axis=lgfs, mar=c(0,0,0,0)); plot.new()
-        image.plot(1, ColorLevels,matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),col=ColorRamp, legend.only = TRUE, legend.shrink=1, smallplot=c(.1,.4,0.1,.9))
-        #box()
-    }
-    par(opar); layout(1)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }

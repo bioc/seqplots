@@ -1,9 +1,5 @@
 /*
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
  * jQuery postMessage Transport Plugin 1.1.2
-=======
- * jQuery postMessage Transport Plugin 1.1
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2011, Sebastian Tschan
@@ -13,24 +9,16 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 /* global define, require, window, document */
-=======
-/*jslint unparam: true, nomen: true */
-/*global define, window, document */
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
         define(['jquery'], factory);
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     } else if (typeof exports === 'object') {
         // Node/CommonJS:
         factory(require('jquery'));
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     } else {
         // Browser globals:
         factory(window.jQuery);
@@ -78,14 +66,9 @@
                 xhrUpload = options.xhr().upload;
             return {
                 send: function (_, completeCallback) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
                     counter += 1;
                     var message = {
                             id: 'postmessage-transport-' + counter
-=======
-                    var message = {
-                            id: 'postmessage-transport-' + (counter += 1)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
                         },
                         eventName = 'message.' + message.id;
                     iframe = $(

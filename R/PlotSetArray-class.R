@@ -33,13 +33,9 @@ PlotSetArray <- setRefClass("PlotSetArray",
         },
         unlist = function() {
             'Flattens PlotSetArray to PlotSetList'
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             PlotSetList(
                 data=lapply(pairind(), function(x) data[[x[1]]][[x[2]]] )
             )
-=======
-            PlotSetList(data=lapply(pairind(), function(x) data[[x[1]]][[x[2]]] ))
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
         },
         info = function() {
             "Outputs data.frame describing the content of PlotSetList"
@@ -54,14 +50,10 @@ PlotSetArray <- setRefClass("PlotSetArray",
             }
         },
         show = function() {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             cat( 
                 'PlotSetArray with', nfeatures(), 'feature(s) and', ntracks(), 
                 'tracks.\nContain:\n' 
             )
-=======
-            cat( 'PlotSetArray with', nfeatures(), 'feature(s) and', ntracks(), 'tracks.\nContain:\n' )
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             print(info()); return(NULL);
         },
         as.array = function(x, ...) { 
@@ -83,12 +75,8 @@ PlotSetArray <- setRefClass("PlotSetArray",
             PlotSetList(data=lapply( i, function(x) data[[x[2]]][[x[1]]] ))
         },
         plot = function(...) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             "Plot the PlotSetArray, i.e. all PlotSetPairs within class. 
             See \\code{\\link{plot}} for datails."
-=======
-            "Plot the PlotSetArray, i.e. all PlotSetPairs within class. See \\code{\\link{plot}} for datails."
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
             unlist()$plot(...)
         },
         getRow = function(i) {
@@ -98,6 +86,10 @@ PlotSetArray <- setRefClass("PlotSetArray",
         subset = function(i, j) {
             "Subseting method, get PlotSetPair as list"
             data[[as.integer(i)]][[as.integer(j)]]
+        },
+        anno = function(n) {
+            'Extracts the genomic locations for nth feature as GRanges'
+            if( length(annotations) < n ) return(NA) else return(annotations[[n]])
         }
     )
 )

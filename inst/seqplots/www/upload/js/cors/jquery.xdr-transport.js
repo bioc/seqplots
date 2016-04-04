@@ -1,9 +1,5 @@
 /*
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
  * jQuery XDomainRequest Transport Plugin 1.1.4
-=======
- * jQuery XDomainRequest Transport Plugin 1.1.3
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2011, Sebastian Tschan
@@ -16,24 +12,16 @@
  * https://github.com/jaubourg/ajaxHooks/
  */
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 /* global define, require, window, XDomainRequest */
-=======
-/*jslint unparam: true */
-/*global define, window, XDomainRequest */
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
         define(['jquery'], factory);
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     } else if (typeof exports === 'object') {
         // Node/CommonJS:
         factory(require('jquery'));
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     } else {
         // Browser globals:
         factory(window.jQuery);

@@ -38,7 +38,6 @@ test_that("Test getPlotSetArray function and plotting interfaces", {
     expect_is(plot(psa[2], what='h'), 'data.frame')
     expect_is(plot(psa[2,1], what='h'), 'data.frame')
     
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     context("Extended functions tests for better test coverage")
     expect_null(plotAverage(psa, plotScale = 'log2'))
     expect_null(plotAverage(unlist(psa), plotScale = 'zscore'))
@@ -77,7 +76,7 @@ test_that("Test getPlotSetArray function and plotting interfaces", {
     )
     
     expect_is(
-        plotHeatmap(psa[[1]], indi=FALSE, raster=FALSE, colved='red')
+        plotHeatmap(psa[[1]], indi=FALSE, raster=FALSE, colvec='red')
         , 'data.frame'
     )
     
@@ -89,24 +88,15 @@ test_that("Test getPlotSetArray function and plotting interfaces", {
 
     
     
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 })
 
 test_that("Test motifs", {
     
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     context("Test motif - aquire data")
     
     ms <- MotifSetup()
     ms$addMotif('GAGA')
     ms$addMotif('TATA', revcomp=TRUE)
-=======
-    
-    ms <- MotifSetup()
-    ms$addMotif('GAGA')
-    ms$addMotif('TATA')
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     ms$addBigWig(bw1)
     expect_is(ms, 'MotifSetup', info = NULL, label = NULL)
     expect_equal(ms$nmotifs(), 3, info = NULL, label = NULL)
@@ -133,17 +123,13 @@ test_that("Test motifs", {
     expect_is(plot(psa[2,1], what='h'), 'data.frame')
     expect_is(plot(psa[c(1,3,5)], what='h'), 'data.frame')
     
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     context("Testing heatmap options")
     expect_is(plotHeatmap(psa[1,], indi = FALSE), 'data.frame')
     
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     context("Testing heatmap cluster report")
     expect_true( all(is.na( psa[1,]$plot('h', clusters=0)$ClusterID )) )
     expect_true( all(is.na( plotHeatmap(psa[1,], clstmethod='none' )$ClusterID )) )
     
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     context("Anchored features test")
     if(.Platform$OS.type == "windows" && .Machine$sizeof.pointer == 4) 
         skip('Skipping on Win 32bit')
@@ -172,10 +158,5 @@ test_that("helper functions", {
     expect_null( imPlot2(matrix(rnorm(100), 10, 10), xinds=1, legend.only = TRUE) )
     expect_null( imPlot2(matrix(rnorm(100), 10, 10), xinds=1, graphics.reset=TRUE) )
 })
-=======
-})
-
-
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 

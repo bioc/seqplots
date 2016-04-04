@@ -11,13 +11,8 @@
 #'   
 #' @return
 #' If \code{x} is \strong{\code{\link{PlotSetArray}}} class: \itemize{ \item
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 #' \code{x[1:2,1:2]} produces \code{\link{PlotSetArray}} with 2 feature(s) and
 #' 2 tracks. \item \code{x[1:2]} produces \code{\link{PlotSetList}} with 2
-=======
-#' \code{x[1:2,1:2]} produces \code{\link{PlotSetArray}} with 2 feature(s) and 2
-#' tracks. \item \code{x[1:2]} produces \code{\link{PlotSetList}} with 2
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #' feature/tracks pairs. \item \code{x[[1]]} produces single
 #' \code{\link{PlotSetPair}}. \item \code{unlist(x)} produces
 #' \code{\link{PlotSetList}} with all feature/tracks pairs. \item
@@ -25,12 +20,8 @@
 #' with all feature/tracks pairs. }
 #' 
 #' If \code{x} is \strong{\code{\link{PlotSetList}}} class: \itemize{ \item
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 #' \code{x[1:2]} produces \code{\link{PlotSetList}} with 2 feature/tracks 
 #' pairs.
-=======
-#' \code{x[1:2]} produces \code{\link{PlotSetList}} with 2 feature/tracks pairs.
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #' \item \code{x[[1]]} produces single \code{\link{PlotSetPair}}. }
 #' 
 #' 
@@ -49,14 +40,9 @@ NULL
 #'  default functionality of \code{\link[graphics]{plot}} function.
 #' @param what This argument takes a character determining if avareange 
 #'  plot (\code{"a"}, default) or heatmap (\code{"h"}) will be plotted.
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 #' @param ... Other parameters controlong the plot, see 
 #'  \code{\link{plotAverage}} for avareange plot and \code{\link{plotHeatmap}}
 #'  for heatmaps.
-=======
-#' @param ... Other parameters controlong the plot, see \code{\link{plotAverage}}
-#'  for avareange plot and \code{\link{plotHeatmap}} for heatmaps.
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #' 
 #' @return
 #' Returns \code{NULL} for avareange plot and cluster report \code{data.frame} 
@@ -88,6 +74,7 @@ NULL
 #'      clspace = rev(rainbow(4, 0.7, 0.5)) )
 #' 
 setGeneric('plot')
+if(!isGeneric('unlist')) setGeneric('unlist')
 
 #' @describeIn plot Method plot for signature 'PlotSetPair'
 #' @include PlotSetPair-class.R
@@ -118,7 +105,6 @@ setMethod("[[", c("PlotSetList", "ANY"), function(x, i, ...) {
 
 #' @rdname seqplots-generic
 #' @include PlotSetList-class.R
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 setMethod(
     "[", signature(x = "PlotSetArray", i = "ANY", j = "missing"),
     function (x, i, j, ...) {
@@ -128,16 +114,6 @@ setMethod(
             x$get(i, 1:x$ntracks())
         else stop("invalid nargs()= ",na)
     }
-=======
-setMethod("[", signature(x = "PlotSetArray", i = "ANY", j = "missing"),
-          function (x, i, j, ...) {
-              if((na <- nargs()) == 2)
-                  x$getByID(i)
-              else if(na == 3)
-                  x$get(i, 1:x$ntracks())
-              else stop("invalid nargs()= ",na)
-          }
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 )
 
 #' @rdname seqplots-generic
@@ -147,18 +123,11 @@ setMethod("[", c("PlotSetArray", "ANY", "vector"), function(x, i, j)
 
 #' @rdname seqplots-generic
 #' @include PlotSetArray-class.R
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 setMethod(
     "[[", c("PlotSetArray", "ANY"), function(x, i, ...) {
         if(length(i) > 1 ) stop('recursive indexing not allowed')
         do.call(PlotSetPair, x$getByID(i)$data[[1]])
     })
-=======
-setMethod("[[", c("PlotSetArray", "ANY"), function(x, i, ...) {
-    if(length(i) > 1 ) stop('recursive indexing not allowed')
-    do.call(PlotSetPair, x$getByID(i)$data[[1]])
-})
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 #' @rdname seqplots-generic
 #' @include PlotSetArray-class.R

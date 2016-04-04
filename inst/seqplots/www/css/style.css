@@ -1,4 +1,51 @@
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
+#TrackSelCtl, #FeatureSelCtl {
+    text-align:right; 
+
+    margin-top:-39px;
+    margin-bottom:9px;
+    font-weight: bold;
+}
+
+.shiny-progress .progress {
+    height:10px;
+}
+
+.shiny-progress .progress-text {
+    top: 10px !important;
+    /* left: 50%; margin-left:-400px; */
+    height: auto;
+    opacity: 0.90;
+    width: 200px;
+    border-style: solid;
+    border-width: 3px;
+    display: block;
+    border-color: black;
+    text-align:center;
+
+}
+
+.shiny-progress .progress-text .progress-message {
+    margin-top: 5px;
+    font-size:130%;
+    display: block;
+    opacity: 1;
+    
+}
+
+.shiny-progress .progress-text .progress-detail {
+    font-size:130%;
+    display: block;
+    margin-bottom: 5px;
+    opacity: 1;
+}
+
+.shiny-progress .progress-text .progress-detail:before {
+    content: 'Progress: ';
+}
+
+
+
+
 #multi_name_flt {
     margin-right: 10px;
     margin-bottom: 10px;
@@ -50,17 +97,13 @@ input[name='plot_this'] {
 
 #downloadBatchColLineplot{
   margin-bottom: 10px;
-=======
-#downloadBatchColLineplot{
-  margin-top: 10px;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }
 
-.selectionsInfo {
+/*.selectionsInfo {
   display: inline;
   margin-left: 20px;
   font-weight: bold;
-}
+}*/
 
 #lnh_pos {
   width: 80px;
@@ -69,13 +112,7 @@ input[name='plot_this'] {
 #legend_pos, #legend_ext_pos, #batch_what, #batch_how {
   width: 110px;
 }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
-=======
-.modal {
-    position: absolute;
-}
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 
 .table-inside-modal tr {
     height: 32px;
@@ -90,7 +127,6 @@ input[name='plot_this'] {
 }
 
 .DTTT_container {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
   margin-left: 10px;
 
@@ -99,23 +135,6 @@ input[name='plot_this'] {
 
 #pdf_x_size, #pdf_y_size, #grid_x_size, #grid_y_size {
   	width: 80px;
-=======
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 13px;
-}
-
-.DTTT_button {
-  height: 17px;
-}
-
-#title, #xlabel, #ylabel {
-		width: 85px;
-}
-
-#pdf_x_size, #pdf_y_size, #grid_x_size, #grid_y_size {
-  	width: 50px;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }
 
 #img_clusters {
@@ -155,22 +174,6 @@ input[name='plot_this'] {
 	 /* border: 5px solid navy; */
 }
 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
-=======
-#myModal {
-  width:1200px; 
-  text-align: left; 
-  top: 10px; 
-/*left: 10px; 
-  margin-left: 0px; */
-  margin-left: -600px;
-}
-
-#myModal > .modal-body {
-	max-height: 1200px !important;
-}
-
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 #plot_upstream, #plot_downstream, #anchored_downstream, #plot_type, .fTable {
 	width: 100%;
 }
@@ -210,11 +213,7 @@ label[for="hsccoef"] {
 }
 
 input#BWbin {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 	width: 68px;
-=======
-	width: 48px;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	display: inline;
 	
 }
@@ -225,62 +224,91 @@ input#BWbin {
 }
 
 p > label {
-	
 	display: inline;
 }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
+/* Preview and zoom for PDF display  */
 
-
-
-img {
-    margin-top: 10px;
-    width: 100%;
+#preview-pdf-div {
     cursor: -webkit-zoom-in; 
     cursor: -moz-zoom-in;
+    text-align: center;
 }
 
 .zoom_image { 
-      max-width: 100% !important;
-      max-height: 120% !important;
-      width: auto !important;
-      cursor: -webkit-zoom-out !important; 
-      cursor: -moz-zoom-out !important;
-      position: fixed !important;
-      top: 10px !important;
-      left: 10px !important;
-      margin-right: 0px !important;
-      margin-bottom: 0px !important;
-      margin-top: 0px !important;
-      z-index:3;
+      height: 100%;
+      width: 100%;
+      cursor: -webkit-zoom-out 
+      cursor: -moz-zoom-out;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.8);
+      z-index: 3;
+      text-align: center;
+
+}
+
+.zoom_image > canvas {
       border-style: dotted;
-      border-width: 3px;
+      border-width: 5px;
       border-color: grey;
-=======
-div.img {
-      height: 235px;
 }
 
-div.img > div > img { 
-      max-width: 330px;
-      position:absolute;
-      z-index:3;
-      cursor: -webkit-zoom-in; cursor: -moz-zoom-in;
-}
- /*div.img > div > img:active { 
-      max-width: 100% !important;
-      cursor: -webkit-zoom-out; cursor: -moz-zoom-out;
-}*/
+/* Tutorial CSS  */
 
-.zoom_image { 
-      max-width: 100% !important;
-      cursor: -webkit-zoom-out !important; 
-      cursor: -moz-zoom-out !important;
-      position: absolute !important;
-      top: 35px !important;
-      left: 35px !important;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
+#tutorial { 
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background-color: rgba(0,0,0,0.8);
+      text-align: center;
+      z-index:9999;
+      
 }
+
+.popover {
+    z-index: 110000;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+#tutorial > div {
+    position: auto;
+    margin: auto;
+    width: 700px;
+    background-color: white;
+    border: 1px solid black;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+#tutorial > div > div {
+    position: auto;
+    margin: auto;
+    width: 650px;
+
+}
+
+#tutorial img {
+    position: auto;
+    margin: auto;
+    border: 0px solid red;
+    height: 250px;
+}
+
+.carousel-indicators .active {
+    background-color:black;
+}
+.carousel-indicators li {
+    border-color: black;
+}
+
+/* Plot grid CSS  */
 
 th > span {
       position: relative;
@@ -366,25 +394,15 @@ th > span > span > span {
 .letter-container {
 /* 	border-bottom: 0px dashed rgba(0,0,0,0.3); */
 /* 	border-top: 0px dashed rgba(0,0,0,0.3); */
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 
 	height: 85px;
 	width: auto;
 	margin: 3px auto;
-=======
-	padding: 10px;
-	height: 60px;
-	width: auto;
-	margin: 20px auto;
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 }
 .letter-container h2 {
 	text-align: left;
 	font-family: 'MyFont', Arial, serif;
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
   margin: 0px;
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
 	
 	
 	/* text-transform: uppercase; */
@@ -584,8 +602,4 @@ th > span > span > span {
    	opacity: 1;
    	text-shadow: 0px 0px 2px #444, 1px 1px 4px rgba(0,0,0,0.7);
  }
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
 }
-=======
-}
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.

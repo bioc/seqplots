@@ -28,35 +28,33 @@ mcDoParallel <- quote({
   do <- quote({ 
       session$sendCustomMessage("jsExec", "$('#progressModal').modal('show').find('#summary2').text('Plotting...').parent().find('#summary3').text('')")
       out <- list()
-      a <- tempfile(pattern = "sessionID_", tmpdir = 'tmp', fileext = '.png')
-      # Generate the PNG
-      png(a, height = 210, width = 297, units='mm', res=100, pointsize = 12)
       
+      dir.create(file.path(Sys.getenv('root'), 'tmp', values$sessionID), showWarnings = FALSE)
+      
+      a <- file.path('tmp', values$sessionID, paste('Plot_', chartr(' :', '_-', Sys.time()), '.pdf', sep=''))
+      # Generate the PNG
+      #pdf(a, height = 210, width = 297, units='mm', res=100, pointsize = 12)
+      pdf(
+          file.path(Sys.getenv('root'), a), width = input$pdf_x_size, 
+          height = input$pdf_y_size, onefile = TRUE, paper=input$paper
+      )
       co <- lapply(input$plot_this, function(x) fromJSON(x))
       pl <- lapply(co, function(x) values$grfile[[x[2]]][[x[1]]] )
       
       if(input$recordHistory) { dev.control(displaylist="enable") }
       
       if ( !input$img_heatmap ) {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
             ans <- plotLineplotLocal(pl=pl)
       } else {
             ans <- plotHeatmapLocal(pl=pl)
-=======
-        plotLineplot(pl=pl)
-      } else {
-        plotHeatmap(pl=pl)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
       }
       
       if(input$recordHistory) { out$plot <- recordPlot(); dev.control(displaylist="inhibit");  }
       
       dev.off()
       out$url <- a
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       out$seed <- attr(ans, 'seed')
-=======
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
+      out$anno <- ans
       
       class(out) <- 'ans'; out 
   })
@@ -71,29 +69,23 @@ mcDoParallel <- quote({
     if (class(out) == "try-error") {
       session$sendCustomMessage( "jsAlert", paste('ERROR:', attr(out, 'condition')$message) ) 
     } else {
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
       values$im <-  as.character(out$url)
       values$seed <- out$seed
-=======
-      values$im <-  as.character(out$url) 
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
     }
   } else {
     
     mceval(do, 
       quote({ 
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
         session$sendCustomMessage("jsDots", ".") 
       }),
       quote({ 
         values$im <- as.character(res$url)
         values$seed <- res$seed
-=======
-        session$sendCustomMessage("jsExec", "$('#summary3').text( $('#summary3').text().length < 50 ? $('#summary3').text()+'.' : '.' )") 
-      }),
-      quote({ 
-        values$im <- as.character(res$url)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
+        values$clustrep  <- res$anno
+        values$clusters <- res$anno$ClusterID
+        values$plotid  <- isolate( if( is.numeric(values$plotid) ) values$plotid + 1 else 1 )
+        values$clustrep  <- res$anno
+        values$clusters <- res$annoClusterID
         if( !is.null(res$plot) ) isolate({ values$plotHistory[[length(values$plotHistory)+1]] <- res$plot })
       })
     )

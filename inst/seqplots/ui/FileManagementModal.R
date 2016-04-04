@@ -1,17 +1,38 @@
 #File management modal
 tagList(
-<<<<<<< 0855384d43d2e83c69bb9ff96f3ed7ead8da615a
     singleton(tags$head(tags$script(src = "js/modal_events.js"))),	
     div(id="calcModal", class="modal fade", tabindex="-1", role="dialog", div(class="modal-dialog", div(
         class="modal-content", div( 
             class="modal-body",
             tags$p(tags$span(class="label label-info", 'Info'), 'Choose file by clicking on file name.  Chosen files will be highlighted. Click file name again to cancel choice. At least one signal track or motif and one feature file must be selected.'),
             tabsetPanel(
-                tabPanel("Tracks",   dataTableOutput('trackDT') ),
-                tabPanel("Features", dataTableOutput('featureDT') ),
-                tabPanel("Sequence features",   div(class='row', div(class='col-md-4', wellPanel(
+                tabPanel(
+                    "Tracks",   
+                    div(id='TrackSelCtl', 
+                        ' | ', textOutput('nselected', inline = TRUE),  ' | ', 
+                        div(
+                            style = if( packageVersion("DT") >= '0.1.45' ) "display: inline;" else "display: none;",
+                            actionButton('selFilt', 'Select filtered'),
+                            actionButton('selPage', 'Add visible on page'),
+                            actionButton('selNone', 'Select none')
+                        )
+                    ),
+                    
+                    DT::dataTableOutput('trackDT') 
+                ),
+                tabPanel(
+                    "Features", 
+                    div(id='FeatureSelCtl', 
+                        ' | ', textOutput('nselectedFT', inline = TRUE),  ' | ', 
+                        actionButton('selFiltFT', 'Select filtered'),
+                        actionButton('selPageFT', 'Add visible on page'),
+                        actionButton('selNoneFT', 'Select none')
+                    ),
+                    
+                    DT::dataTableOutput('featureDT')
+                    ),
+                tabPanel("Sequence features", tags$br(), div(class='row', div(class='col-md-4', wellPanel(
                     class='SFform', 
-                    #selectInput("SFgenome", "Reference sequence (genmoe)", GENOMES),
                     textInput(inputId='SFpattern', label='DNA motif'),
                     numericInput(inputId='SFbin', label='Sliding window size in base pairs [bp]', value=200, min=10, step=10),
                     textInput(inputId='SFname', label='Display name'),
@@ -44,61 +65,13 @@ tagList(
         div(class="pull-right", style="margin-top:25px",
             tags$button(tags$span(tags$i(class="icon-off"), "Close"),	class="btn", 'data-dismiss'="modal"),
             tags$button(tags$span(tags$i(class="icon-refresh icon-white"), 'Refresh'),  class="btn action-button btn-success", id="reloadgrid"),
+            #actionButton(inputId = 'rmfiles', label = 'Remove selected files', icon = icon('trash'), class='btn-danger' ),
+            
             tags$button(tags$span(tags$i(class="icon-trash icon-white"), 'Remove selected files'), 	class='btn btn-danger', onClick='rmSelctedFiles()'),
-            tags$button(tags$span(tags$i(class="icon-play icon-white"), 'Run calculation'), 			class='btn btn-primary', onClick='sendToCalc()'	)
+            #tags$button(tags$span(tags$i(class="icon-play icon-white"), 'Run calculation'), 			class='btn btn-primary', onClick='sendToCalc()'	)
+            actionButton(inputId = 'runcalc', label = 'Run calculation', icon = icon('play'), class='btn-primary' )
         )
         
         )
     )))
 )
-=======
-  singleton(tags$head(tags$script(src = "js/modal_events.js"))),	
-  div(id="myModal", class="modal hide fade", tabindex="-1", role="dialog",
-      div( class="modal-body",
-           tags$p(tags$span(class="label label-info", 'Info'), 'Choose file by clicking on file name.  Chosen files will be highlighted. Click file name again to cancel choice. At least one signal track or motif and one feature file must be selected.'),
-           tabsetPanel(
-             tabPanel("Tracks", 		div(class='fileMoodalInnerDiv', div("Loading...",id="tracktable")	)),
-             tabPanel("Features", 	div(class='fileMoodalInnerDiv', div("Loading...",id="featuretable")	)),
-             tabPanel("Sequence features",   div(class='row', div(class='span4', wellPanel(class='SFform', 
-                                                                                           #selectInput("SFgenome", "Reference sequence (genmoe)", GENOMES),
-                                                                                           textInput(inputId='SFpattern', label='DNA motif'),
-                                                                                           numericInput(inputId='SFbin', label='Sliding window size in base pairs [bp]', value=200, min=10, step=10),
-                                                                                           textInput(inputId='SFname', label='Display name'),
-                                                                                           checkboxInput(inputId='SFadvanced', label="Plot heatmap or error estimates", value=TRUE),
-                                                                                           checkboxInput(inputId='SFrevcomp', label="Match reverse complement as well", value=FALSE),
-                                                                                           actionButton('SFadd', 'Add'), actionButton('SFreset', 'Reset All'))),
-                                                 div(class='span7', style='height:450px; overflow:auto;', 'Motifs to add:', verbatimTextOutput("SFsetup") )
-                                                 
-                                                 
-             ))
-           )
-      ),
-      div( class="modal-footer",
-           div(id='modalToolbar', class='row-fluid',
-               div(class="span2", 
-                   numericInput("BWbin", "Bin track @ [bp]: ", 10)
-               ),
-               div(class="span2", radioButtons('plot_type', 'Choose the plot type', c( 'Point Features', 'Midpoint Features', 'Anchored Features' ) ) ),
-               div(class="span2", p("Additional options:"), 
-                   #conditionalPanel( condition = "input.plot_type != 'Anchored Features'", 
-                   checkboxInput("ignore_strand", "Ignore strand", FALSE),
-                   #), 
-                   checkboxInput("rm0", "Remove zeros", FALSE),
-                   checkboxInput("add_heatmap", "Calculate Heatmap", TRUE)
-               ),
-               div(class="span1", style="text-align:right;", 'Plotting distances in [bp]:'),
-               div(class="span1", numericInput("plot_upstream", "Upstream:", 1000)),
-               div(class="span1" ,conditionalPanel( condition = "input.plot_type == 'Anchored Features'", id='anchoredHidabeDiv', numericInput("anchored_downstream", "Anchored:", 1000)) ),
-               div(class="span1", numericInput("plot_downstream", "Downstream:", 1000))
-           ),
-           div( class="btn-toolbar",
-                tags$button(tags$span(tags$i(class="icon-off"), "Close"),	class="btn", 'data-dismiss'="modal"),
-                tags$button(tags$span(tags$i(class="icon-refresh icon-white"), 'Refresh'),  class="btn action-button btn-success", id="reloadgrid"),
-                tags$button(tags$span(tags$i(class="icon-trash icon-white"), 'Remove selected files'), 	class='btn btn-danger', onClick='rmSelctedFiles()'),
-                tags$button(tags$span(tags$i(class="icon-play icon-white"), 'Run calculation'), 			class='btn btn-primary', onClick='sendToCalc()'	)
-           )
-           
-      )
-  )
-)
->>>>>>> Adds rain/ TSCAN/ GOsummaries/ geecc/ seqplots/ systemPipeR/ to the repos.
